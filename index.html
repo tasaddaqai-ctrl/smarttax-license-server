@@ -688,27 +688,12 @@
                         </div>
                     </div>
 
-                    <!-- Mobile Number + OTP Button -->
+                    <!-- WhatsApp Mobile Number -->
                     <div>
                         <label class="block text-xs font-semibold text-slate-300 mb-1.5">WhatsApp Mobile Number (Primary Login ID) *</label>
-                        <div class="flex gap-2">
-                            <div class="relative flex-1">
-                                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-500 font-mono text-xs">+92</span>
-                                <input type="text" id="regMobile" required placeholder="03XXXXXXXXX" maxlength="11" class="w-full pl-12 pr-4 py-3 bg-slate-900/90 border border-slate-700 rounded-xl text-white text-sm font-mono focus:outline-none focus:border-emerald-400">
-                            </div>
-                            <button type="button" id="btnSendOtp" onclick="sendWhatsAppOtp()" class="px-4 py-3 bg-emerald-600/80 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl border border-emerald-500/40 flex items-center gap-1.5 shrink-0 transition">
-                                <i class="fa-brands fa-whatsapp"></i> <span>Send OTP</span>
-                            </button>
-                        </div>
-                        <div id="otpNotice" class="hidden mt-2 text-[11px] text-emerald-400 bg-emerald-500/10 p-2.5 rounded-lg border border-emerald-500/20"></div>
-                    </div>
-
-                    <!-- OTP Code (Hidden initially) -->
-                    <div id="otpInputGroup" class="hidden">
-                        <label class="block text-xs font-semibold text-emerald-300 mb-1.5">Enter 6-Digit WhatsApp OTP Code *</label>
                         <div class="relative">
-                            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-emerald-400"><i class="fa-solid fa-key"></i></span>
-                            <input type="text" id="regOtpCode" maxlength="6" placeholder="Enter OTP from WhatsApp" class="w-full pl-10 pr-4 py-3 bg-slate-900 border border-emerald-500/50 rounded-xl text-emerald-300 font-mono text-sm tracking-widest focus:outline-none focus:border-emerald-400">
+                            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-500 font-mono text-xs">+92</span>
+                            <input type="text" id="regMobile" required placeholder="03XXXXXXXXX" maxlength="11" class="w-full pl-12 pr-4 py-3 bg-slate-900/90 border border-slate-700 rounded-xl text-white text-sm font-mono focus:outline-none focus:border-emerald-400">
                         </div>
                     </div>
 
