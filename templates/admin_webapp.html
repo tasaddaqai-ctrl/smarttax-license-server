@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartTax FBR Pro - Vendor SaaS Administration Web Portal</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            900: '#0c4a6e'
+                        },
+                        darkbg: '#0a0f1d',
+                        cardbg: '#111827',
+                        bordercolor: '#1f2937'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        .glass-header { background: rgba(17, 24, 39, 0.85); backdrop-filter: blur(12px); }
+        .tab-btn.active { border-color: #38bdf8; color: #38bdf8; background-color: rgba(56, 189, 248, 0.1); }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    </style>
+</head>
+<body class="bg-[#0b1120] text-slate-100 min-h-screen flex flex-col">
+
+    <!-- TOP NAVIGATION BAR -->
+    <header class="sticky top-0 z-40 glass-header border-b border-slate-800 px-4 lg:px-8 py-3.5">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <!-- Brand / Logo -->
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-500 to-emerald-400 flex items-center justify-center shadow-lg shadow-sky-500/20">
+                    <i class="fa-solid fa-file-invoice-dollar text-slate-950 text-xl font-bold"></i>
+                </div>
+                <div>
+                    <div class="flex items-center space-x-2">
+                        <span class="font-extrabold text-lg tracking-tight text-white">SmartTax <span class="text-sky-400">FBR Pro</span></span>
+                        <span class="px-2 py-0.5 text-xs font-semibold rounded-md bg-sky-950 text-sky-400 border border-sky-800">SaaS Central v2.6</span>
+                    </div>
+                    <p class="text-xs text-slate-400 hidden sm:block">FBR PRAL Digital Invoicing Vendor Management Portal</p>
+                </div>
+            </div>
+
+            <!-- Server Status & Actions -->
+            <div class="flex items-center space-x-3">
+                <div class="hidden md:flex items-center space-x-2 px-3 py-1.5 rounded-full bg-slate-900 border border-slate-700 text-xs text-slate-300">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span>Server Live on Port <b class="text-emerald-400">5055</b></span>
+                </div>
+
+                <!-- Record Payment Button -->
+                <button onclick="openRecordPaymentModal()" class="flex items-center space-x-2 px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-md shadow-emerald-600/20 transition">
+                    <i class="fa-solid fa-plus-circle"></i>
+                    <span>Record Payment</span>
+                </button>
+
+                <!-- Admin User Dropdown/Info -->
+                <div class="flex items-center space-x-2.5 pl-2 border-l border-slate-800">
+                    <div class="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-500 to-sky-500 flex items-center justify-center text-white font-bold text-sm shadow">
+                        TH
+                    </div>
+                    <div class="hidden lg:block text-left">
+                        <div class="text-xs font-bold text-white">{{ vendor_title }}</div>
+                        <div class="text-[11px] text-emerald-400 font-mono">{{ vendor_mobile }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- OFFICIAL PAYMENT ACCOUNT BANNER -->
+    <div class="max-w-7xl mx-auto w-full px-4 lg:px-8 mt-5">
+        <div class="bg-gradient-to-r from-slate-900 via-slate-900 to-teal-950 border-2 border-emerald-500/50 rounded-2xl p-4 lg:p-5 shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div class="flex items-center space-x-4">
+                <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-2xl shrink-0">
+                    <i class="fa-solid fa-wallet"></i>
+                </div>
+                <div>
+                    <div class="flex items-center space-x-2">
+                        <h2 class="text-sm font-bold uppercase tracking-wider text-emerald-400">Official Receiving Account</h2>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-900/60 text-emerald-300 border border-emerald-700/50">Active Gateway</span>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1 text-sm text-slate-200">
+                        <div>Account Number: <span class="font-mono font-bold text-lg text-yellow-400 tracking-wider">{{ vendor_mobile }}</span></div>
+                        <div class="text-slate-400">|</div>
+                        <div>Account Title: <b class="text-white">{{ vendor_title }}</b></div>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-1.5 mt-2">
+                        <span class="px-2 py-0.5 text-xs font-semibold rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">JazzCash</span>
+                        <span class="px-2 py-0.5 text-xs font-semibold rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">EasyPaisa</span>
+                        <span class="px-2 py-0.5 text-xs font-semibold rounded bg-teal-500/20 text-teal-300 border border-teal-500/30">NayaPay</span>
+                        <span class="px-2 py-0.5 text-xs font-semibold rounded bg-sky-500/20 text-sky-300 border border-sky-500/30">Raast / 1Link</span>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center space-x-3 w-full md:w-auto">
+                <button onclick="copyVendorMobile('{{ vendor_mobile }}')" class="flex-1 md:flex-initial px-4 py-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-bold transition flex items-center justify-center space-x-2">
+                    <i class="fa-regular fa-copy"></i>
+                    <span>Copy Account</span>
+                </button>
+                <a href="https://wa.me/92{{ vendor_mobile[1:] }}?text=Assalam-o-Alaikum%20Tasaddaq%20Bhai" target="_blank" class="flex-1 md:flex-initial px-4 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow transition flex items-center justify-center space-x-2">
+                    <i class="fa-brands fa-whatsapp text-sm"></i>
+                    <span>Helpline WhatsApp</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN BODY CONTAINER -->
+    <main class="max-w-7xl mx-auto w-full px-4 lg:px-8 py-6 flex-1">
+
+        <!-- NAVIGATION TABS -->
+        <div class="flex overflow-x-auto border-b border-slate-800 space-x-2 pb-px mb-6 text-sm">
+            <button onclick="switchTab('dashboard')" id="tab-btn-dashboard" class="tab-btn active px-4 py-3 font-semibold rounded-t-lg border-b-2 flex items-center space-x-2.5 transition">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>Dashboard & Metrics</span>
+            </button>
+            <button onclick="switchTab('shops')" id="tab-btn-shops" class="tab-btn px-4 py-3 font-semibold text-slate-400 hover:text-white rounded-t-lg border-b-2 border-transparent flex items-center space-x-2.5 transition">
+                <i class="fa-solid fa-store"></i>
+                <span>Registered Shops ({{ accounts|length }})</span>
+            </button>
+            <button onclick="switchTab('payments')" id="tab-btn-payments" class="tab-btn px-4 py-3 font-semibold text-slate-400 hover:text-white rounded-t-lg border-b-2 border-transparent flex items-center space-x-2.5 transition">
+                <i class="fa-solid fa-money-bill-transfer"></i>
+                <span>Payment Ledger & TID ({{ payments|length }})</span>
+            </button>
+            <button onclick="switchTab('backups')" id="tab-btn-backups" class="tab-btn px-4 py-3 font-semibold text-slate-400 hover:text-white rounded-t-lg border-b-2 border-transparent flex items-center space-x-2.5 transition">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+                <span>Cloud Backups Vault</span>
+            </button>
+            <button onclick="switchTab('otps')" id="tab-btn-otps" class="tab-btn px-4 py-3 font-semibold text-slate-400 hover:text-white rounded-t-lg border-b-2 border-transparent flex items-center space-x-2.5 transition">
+                <i class="fa-brands fa-whatsapp"></i>
+                <span>WhatsApp OTP Logs</span>
+            </button>
+        </div>
+
+        <!-- ================================================================= -->
+        <!-- TAB 1: DASHBOARD & METRICS -->
+        <!-- ================================================================= -->
+        <div id="tab-view-dashboard" class="space-x-0 space-y-6">
+            <!-- 4 KPI CARDS -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <!-- Card 1 -->
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-sm">
+                    <div class="flex items-center justify-between text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">
+                        <span>Total Revenue</span>
+                        <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+                            <i class="fa-solid fa-receipt"></i>
+                        </div>
+                    </div>
+                    <div class="text-2xl font-extrabold text-emerald-400">PKR {{ total_revenue }}</div>
+                    <p class="text-xs text-slate-400 mt-2">Collected via JazzCash / EasyPaisa / NayaPay</p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-sm">
+                    <div class="flex items-center justify-between text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">
+                        <span>Registered Shops</span>
+                        <div class="w-8 h-8 rounded-lg bg-sky-500/10 text-sky-400 flex items-center justify-center">
+                            <i class="fa-solid fa-store"></i>
+                        </div>
+                    </div>
+                    <div class="text-2xl font-extrabold text-sky-400">{{ total_shops }} Shops</div>
+                    <p class="text-xs text-slate-400 mt-2">Active business terminals nationwide</p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-sm">
+                    <div class="flex items-center justify-between text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">
+                        <span>Paid Subscriptions</span>
+                        <div class="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center">
+                            <i class="fa-solid fa-crown"></i>
+                        </div>
+                    </div>
+                    <div class="text-2xl font-extrabold text-indigo-400">{{ paid_count }} Commercial</div>
+                    <p class="text-xs text-slate-400 mt-2">Annual (22k) & Monthly (2.5k) plans</p>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-sm">
+                    <div class="flex items-center justify-between text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">
+                        <span>Free Trials Active</span>
+                        <div class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center">
+                            <i class="fa-solid fa-gift"></i>
+                        </div>
+                    </div>
+                    <div class="text-2xl font-extrabold text-amber-400">{{ trial_count }} In Trial</div>
+                    <p class="text-xs text-slate-400 mt-2">30-day evaluation with WhatsApp check</p>
+                </div>
+            </div>
+
+            <!-- ANALYTICS CHART & QUICK METRICS -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Chart Area -->
+                <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-5">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="text-base font-bold text-white">Revenue & Shop Growth Trends</h3>
+                            <p class="text-xs text-slate-400">Monthly subscription collections and shop onboarding</p>
+                        </div>
+                        <span class="text-xs font-semibold px-2.5 py-1 rounded bg-slate-800 text-slate-300">Year 2026</span>
+                    </div>
+                    <div class="h-64">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Cloud Security & Multi-PC Guard Status -->
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-base font-bold text-white mb-3">Security & Multi-PC Guards</h3>
+                        <div class="space-y-3.5">
+                            <div class="flex items-center justify-between p-3 rounded-lg bg-slate-800/60 border border-slate-700/50">
+                                <div class="flex items-center space-x-2.5 text-xs">
+                                    <i class="fa-solid fa-desktop text-sky-400"></i>
+                                    <span>2-PC Terminal Seats</span>
+                                </div>
+                                <span class="text-xs font-bold text-emerald-400">ENFORCED (Max 2)</span>
+                            </div>
+
+                            <div class="flex items-center justify-between p-3 rounded-lg bg-slate-800/60 border border-slate-700/50">
+                                <div class="flex items-center space-x-2.5 text-xs">
+                                    <i class="fa-brands fa-whatsapp text-emerald-400"></i>
+                                    <span>WhatsApp OTP Verify</span>
+                                </div>
+                                <span class="text-xs font-bold text-emerald-400">ACTIVE</span>
+                            </div>
+
+                            <div class="flex items-center justify-between p-3 rounded-lg bg-slate-800/60 border border-slate-700/50">
+                                <div class="flex items-center space-x-2.5 text-xs">
+                                    <i class="fa-solid fa-clock-rotate-left text-amber-400"></i>
+                                    <span>Anti-Clock Tamper</span>
+                                </div>
+                                <span class="text-xs font-bold text-emerald-400">ACTIVE</span>
+                            </div>
+
+                            <div class="flex items-center justify-between p-3 rounded-lg bg-slate-800/60 border border-slate-700/50">
+                                <div class="flex items-center space-x-2.5 text-xs">
+                                    <i class="fa-solid fa-database text-purple-400"></i>
+                                    <span>Encrypted Cloud Vault</span>
+                                </div>
+                                <span class="text-xs font-bold text-emerald-400">AES-256 WAL</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 pt-4 border-t border-slate-800">
+                        <button onclick="switchTab('shops')" class="w-full py-2.5 px-4 rounded-lg bg-slate-800 hover:bg-slate-700 text-sky-400 text-xs font-bold transition flex items-center justify-center space-x-2">
+                            <span>Manage All Shop Licenses</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================================================================= -->
+        <!-- TAB 2: REGISTERED SHOPS & MULTI-PC SEATS -->
+        <!-- ================================================================= -->
+        <div id="tab-view-shops" class="hidden space-y-4">
+            <!-- Controls bar -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-3 bg-slate-900 border border-slate-800 p-4 rounded-xl">
+                <div class="relative w-full sm:w-80">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-500 text-xs"></i>
+                    <input type="text" id="shopSearchInput" onkeyup="filterShopsTable()" placeholder="Search mobile, shop name, city..." class="w-full bg-slate-950 border border-slate-700 rounded-lg pl-9 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-sky-500">
+                </div>
+                <div class="flex items-center space-x-2 w-full sm:w-auto">
+                    <span class="text-xs text-slate-400">Filter:</span>
+                    <button onclick="filterShopStatus('ALL')" class="shop-filter-btn px-2.5 py-1.5 rounded text-xs font-bold bg-sky-950 text-sky-400 border border-sky-800">All</button>
+                    <button onclick="filterShopStatus('PAID')" class="shop-filter-btn px-2.5 py-1.5 rounded text-xs font-bold bg-slate-800 text-slate-300">Paid</button>
+                    <button onclick="filterShopStatus('TRIAL')" class="shop-filter-btn px-2.5 py-1.5 rounded text-xs font-bold bg-slate-800 text-slate-300">Trial</button>
+                </div>
+            </div>
+
+            <!-- Shops Table -->
+            <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs" id="shopsTable">
+                        <thead class="bg-slate-950 border-b border-slate-800 text-slate-400 uppercase tracking-wider font-semibold">
+                            <tr>
+                                <th class="p-3.5">Mobile (Account ID)</th>
+                                <th class="p-3.5">Shop & City</th>
+                                <th class="p-3.5">WhatsApp Verify</th>
+                                <th class="p-3.5">Plan & Expiry</th>
+                                <th class="p-3.5">Multi-PC Seats (Max 2)</th>
+                                <th class="p-3.5">Backups</th>
+                                <th class="p-3.5 text-center">Admin Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800/60 font-medium">
+                            {% for acc in accounts %}
+                            <tr class="hover:bg-slate-800/30 transition shop-row" data-status="{{ acc.subscription_status }}" data-search="{{ acc.mobile_number }} {{ acc.business_name }} {{ acc.city_province }}">
+                                <td class="p-3.5 font-mono font-bold text-sky-400">
+                                    {{ acc.mobile_number }}
+                                </td>
+                                <td class="p-3.5">
+                                    <div class="font-bold text-white text-sm">{{ acc.business_name }}</div>
+                                    <div class="text-[11px] text-slate-400">{{ acc.city_province }}</div>
+                                </td>
+                                <td class="p-3.5">
+                                    {% if acc.whatsapp_verified %}
+                                        <span class="inline-flex items-center space-x-1 px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-800 text-[11px] font-bold">
+                                            <i class="fa-brands fa-whatsapp text-xs"></i>
+                                            <span>Verified</span>
+                                        </span>
+                                    {% else %}
+                                        <span class="inline-flex items-center space-x-1 px-2 py-0.5 rounded-full bg-amber-950 text-amber-400 border border-amber-800 text-[11px]">
+                                            <span>Pending OTP</span>
+                                        </span>
+                                    {% endif %}
+                                </td>
+                                <td class="p-3.5">
+                                    {% if acc.subscription_status == 'PAID' %}
+                                        <span class="px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-300 border border-emerald-700/50 font-bold text-[11px]">{{ acc.plan_type }}</span>
+                                    {% else %}
+                                        <span class="px-2 py-0.5 rounded bg-amber-900/60 text-amber-300 border border-amber-700/50 font-bold text-[11px]">{{ acc.plan_type }}</span>
+                                    {% endif %}
+                                    <div class="text-[11px] text-slate-400 mt-1">Expiry: <b class="text-slate-200">{{ acc.expiry_date }}</b></div>
+                                </td>
+                                <td class="p-3.5">
+                                    <span class="px-2 py-1 rounded bg-slate-800 border border-slate-700 font-bold text-white">
+                                        {{ acc.active_pc_count }} / {{ acc.max_devices }} PCs
+                                    </span>
+                                </td>
+                                <td class="p-3.5 text-slate-300">
+                                    <span class="text-purple-400 font-bold">{{ acc.backup_count }}</span> Snapshots
+                                </td>
+                                <td class="p-3.5 text-center">
+                                    <div class="flex items-center justify-center space-x-1.5">
+                                        <!-- Extend +30 Days -->
+                                        <button onclick="extendShopSubscription('{{ acc.mobile_number }}', 30)" title="Extend Subscription by 30 Days" class="px-2.5 py-1.5 rounded bg-sky-900 hover:bg-sky-800 text-sky-300 text-[11px] font-bold transition">
+                                            +30 Days
+                                        </button>
+                                        <!-- Extend +1 Year -->
+                                        <button onclick="extendShopSubscription('{{ acc.mobile_number }}', 365)" title="Extend Subscription by 1 Year" class="px-2.5 py-1.5 rounded bg-emerald-900 hover:bg-emerald-800 text-emerald-300 text-[11px] font-bold transition">
+                                            +1 Year
+                                        </button>
+                                        <!-- Reset PC Seats -->
+                                        <button onclick="resetShopSeats('{{ acc.mobile_number }}')" title="Reset 2-PC Terminal Seats (Frees up PC slots)" class="px-2.5 py-1.5 rounded bg-amber-900 hover:bg-amber-800 text-amber-300 text-[11px] font-bold transition">
+                                            <i class="fa-solid fa-arrows-rotate mr-1"></i>Reset PCs
+                                        </button>
+                                        <!-- Direct WhatsApp -->
+                                        <a href="https://wa.me/92{{ acc.mobile_number[1:] }}?text=Assalam-o-Alaikum%20{{ acc.business_name|urlencode }},%20this%20is%20Tasaddaq%20Hussain%20from%20SmartTax%20FBR%20Pro." target="_blank" title="Contact Shop via WhatsApp" class="px-2 py-1.5 rounded bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] transition">
+                                            <i class="fa-brands fa-whatsapp"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================================================================= -->
+        <!-- TAB 3: PAYMENT LEDGER & TID -->
+        <!-- ================================================================= -->
+        <div id="tab-view-payments" class="hidden space-y-4">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-3 bg-slate-900 border border-slate-800 p-4 rounded-xl">
+                <div>
+                    <h3 class="text-sm font-bold text-white">Automated Subscription Transactions</h3>
+                    <p class="text-xs text-slate-400">Incoming payments received on JazzCash, EasyPaisa, NayaPay & Raast</p>
+                </div>
+                <button onclick="openRecordPaymentModal()" class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition flex items-center space-x-2">
+                    <i class="fa-solid fa-plus-circle"></i>
+                    <span>+ Record Offline / Cash Payment</span>
+                </button>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs">
+                        <thead class="bg-slate-950 border-b border-slate-800 text-slate-400 uppercase tracking-wider font-semibold">
+                            <tr>
+                                <th class="p-3.5">System Reference</th>
+                                <th class="p-3.5">Customer Mobile</th>
+                                <th class="p-3.5">Payer Account / Title</th>
+                                <th class="p-3.5">Transaction ID (TID)</th>
+                                <th class="p-3.5">Amount (PKR)</th>
+                                <th class="p-3.5">Channel</th>
+                                <th class="p-3.5">Receiving Account</th>
+                                <th class="p-3.5">Date & Time</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800/60 font-medium">
+                            {% for tx in payments %}
+                            <tr class="hover:bg-slate-800/30 transition">
+                                <td class="p-3.5 font-mono text-slate-400">{{ tx.txn_ref }}</td>
+                                <td class="p-3.5 font-bold font-mono text-sky-400">{{ tx.mobile_number }}</td>
+                                <td class="p-3.5 text-white">{{ tx.account_title or tx.sender_mobile or 'Valued Shop' }}</td>
+                                <td class="p-3.5">
+                                    <span class="px-2 py-0.5 rounded bg-yellow-500/10 text-yellow-400 border border-yellow-500/30 font-mono font-bold">
+                                        {{ tx.trx_id or 'Auto-Confirmed' }}
+                                    </span>
+                                </td>
+                                <td class="p-3.5 text-emerald-400 font-extrabold text-sm">
+                                    PKR {{ "{:,.2f}".format(tx.amount_pkr) }}
+                                </td>
+                                <td class="p-3.5">
+                                    <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-bold">
+                                        {{ tx.payment_method }}
+                                    </span>
+                                </td>
+                                <td class="p-3.5 font-mono text-slate-300">{{ tx.vendor_account or '03417027610' }}</td>
+                                <td class="p-3.5 text-slate-400">{{ tx.payment_date }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================================================================= -->
+        <!-- TAB 4: CLOUD BACKUPS VAULT -->
+        <!-- ================================================================= -->
+        <div id="tab-view-backups" class="hidden space-y-4">
+            <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl flex items-center justify-between">
+                <div>
+                    <h3 class="text-sm font-bold text-white">Shop Cloud Backups & Disaster Recovery Vault</h3>
+                    <p class="text-xs text-slate-400">All shops auto-synchronize encrypted snapshots every 15 minutes</p>
+                </div>
+                <div class="px-3 py-1.5 rounded-lg bg-purple-950 text-purple-300 border border-purple-800 text-xs font-bold">
+                    <i class="fa-solid fa-lock mr-1.5"></i>AES-256 Encrypted
+                </div>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs">
+                        <thead class="bg-slate-950 border-b border-slate-800 text-slate-400 uppercase tracking-wider font-semibold">
+                            <tr>
+                                <th class="p-3.5">Backup ID</th>
+                                <th class="p-3.5">Shop Mobile</th>
+                                <th class="p-3.5">Items Count</th>
+                                <th class="p-3.5">Invoices Count</th>
+                                <th class="p-3.5">Snapshot Size</th>
+                                <th class="p-3.5">Backup Timestamp</th>
+                                <th class="p-3.5 text-center">Download Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800/60 font-medium" id="backupsTableBody">
+                            <tr>
+                                <td colspan="7" class="p-6 text-center text-slate-400">Loading cloud vault snapshots...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================================================================= -->
+        <!-- TAB 5: WHATSAPP OTP LOGS -->
+        <!-- ================================================================= -->
+        <div id="tab-view-otps" class="hidden space-y-4">
+            <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl flex items-center justify-between">
+                <div>
+                    <h3 class="text-sm font-bold text-white">WhatsApp OTP Verification Audit Feed</h3>
+                    <p class="text-xs text-slate-400">Logs of all 6-digit codes sent to shopkeepers for fraud prevention</p>
+                </div>
+                <button onclick="loadOtpLogs()" class="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold transition">
+                    <i class="fa-solid fa-rotate-right mr-1"></i>Refresh Logs
+                </button>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs">
+                        <thead class="bg-slate-950 border-b border-slate-800 text-slate-400 uppercase tracking-wider font-semibold">
+                            <tr>
+                                <th class="p-3.5">Mobile Number</th>
+                                <th class="p-3.5">6-Digit OTP Code</th>
+                                <th class="p-3.5">Channel</th>
+                                <th class="p-3.5">Status</th>
+                                <th class="p-3.5">Expires At</th>
+                                <th class="p-3.5">Generated Timestamp</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800/60 font-medium" id="otpsTableBody">
+                            <tr>
+                                <td colspan="6" class="p-6 text-center text-slate-400">Loading WhatsApp OTP audit trail...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-slate-800/80 bg-slate-950/80 py-4 px-4 text-center text-xs text-slate-500">
+        SmartTax FBR Digital Invoicer Pro &bull; Official Vendor: <b class="text-slate-300">Tasaddaq Hussain</b> (03417027610) &bull; SRO 1852(I)/2025 & STGO No. 01 of 2026 Compliant
+    </footer>
+
+    <!-- ================================================================= -->
+    <!-- MODAL: RECORD MANUAL PAYMENT -->
+    <!-- ================================================================= -->
+    <div id="recordPaymentModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-md p-6 shadow-2xl relative">
+            <button onclick="closeRecordPaymentModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="text-lg font-bold text-white mb-1">Record Subscription Payment</h3>
+            <p class="text-xs text-slate-400 mb-4">Manually credit a shop's subscription (Cash / Direct Bank / JazzCash).</p>
+
+            <form id="manualPaymentForm" onsubmit="submitManualPayment(event)" class="space-y-3.5 text-xs">
+                <div>
+                    <label class="block font-bold text-slate-300 mb-1">Shop Mobile Number *</label>
+                    <input type="text" id="m_mobile" required placeholder="e.g. 03001234567" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white font-mono focus:outline-none focus:border-emerald-500">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-300 mb-1">Subscription Plan *</label>
+                    <select id="m_plan" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-emerald-500">
+                        <option value="Annual">Annual Commercial Plan (PKR 22,000 / Year)</option>
+                        <option value="Monthly">Monthly Rolling Plan (PKR 2,500 / Month)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-300 mb-1">Payment Channel *</label>
+                    <select id="m_method" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-emerald-500">
+                        <option value="JazzCash">JazzCash (03417027610)</option>
+                        <option value="EasyPaisa">EasyPaisa (03417027610)</option>
+                        <option value="NayaPay">NayaPay (03417027610)</option>
+                        <option value="Direct Bank Transfer">Direct Bank Transfer / Raast</option>
+                        <option value="Cash In Hand">Cash In Hand / Direct</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-300 mb-1">Transaction ID (Trx ID / TID) *</label>
+                    <input type="text" id="m_trx_id" required placeholder="e.g. 29381029485" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white font-mono font-bold text-yellow-400 focus:outline-none focus:border-emerald-500">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-300 mb-1">Sender Name / Notes</label>
+                    <input type="text" id="m_notes" placeholder="e.g. Paid by shop owner Tasaddaq" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-emerald-500">
+                </div>
+
+                <div class="pt-2 flex items-center space-x-2">
+                    <button type="submit" class="flex-1 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition">
+                        Confirm & Extend Software
+                    </button>
+                    <button type="button" onclick="closeRecordPaymentModal()" class="py-2.5 px-4 rounded-lg bg-slate-800 text-slate-300 font-bold transition">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 max-w-sm rounded-xl p-4 bg-slate-900 border border-emerald-500/50 shadow-2xl text-xs flex items-center space-x-3 text-white">
+        <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
+        <div id="toastMsg" class="font-semibold">Action completed successfully!</div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Tab switching
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active', 'border-sky-400', 'text-sky-400'));
+            const activeBtn = document.getElementById(`tab-btn-${tabId}`);
+            if (activeBtn) {
+                activeBtn.classList.add('active', 'border-sky-400', 'text-sky-400');
+            }
+
+            document.getElementById('tab-view-dashboard').classList.add('hidden');
+            document.getElementById('tab-view-shops').classList.add('hidden');
+            document.getElementById('tab-view-payments').classList.add('hidden');
+            document.getElementById('tab-view-backups').classList.add('hidden');
+            document.getElementById('tab-view-otps').classList.add('hidden');
+
+            const view = document.getElementById(`tab-view-${tabId}`);
+            if (view) view.classList.remove('hidden');
+
+            if (tabId === 'backups') loadBackups();
+            if (tabId === 'otps') loadOtpLogs();
+        }
+
+        // Show Toast Notification
+        function showToast(msg, isError = false) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMsg');
+            const toastIcon = document.getElementById('toastIcon');
+
+            toastMsg.innerText = msg;
+            if (isError) {
+                toast.classList.remove('border-emerald-500/50');
+                toast.classList.add('border-red-500/50');
+                toastIcon.className = "fa-solid fa-circle-xmark text-red-400 text-lg";
+            } else {
+                toast.classList.remove('border-red-500/50');
+                toast.classList.add('border-emerald-500/50');
+                toastIcon.className = "fa-solid fa-circle-check text-emerald-400 text-lg";
+            }
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 4000);
+        }
+
+        // Copy vendor mobile
+        function copyVendorMobile(num) {
+            navigator.clipboard.writeText(num);
+            showToast(`Copied ${num} to clipboard!`);
+        }
+
+        // Extend Shop Subscription (+30 days or +365 days)
+        async function extendShopSubscription(mobile, days) {
+            if (!confirm(`Are you sure you want to extend subscription for shop ${mobile} by ${days} days?`)) return;
+
+            try {
+                const resp = await fetch('/api/admin/shop/extend', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ mobile_number: mobile, days: days })
+                });
+                const data = await resp.json();
+                if (data.success) {
+                    showToast(data.message);
+                    setTimeout(() => window.location.reload(), 1200);
+                } else {
+                    showToast(data.message || 'Error extending subscription', true);
+                }
+            } catch (err) {
+                showToast('Server connection error: ' + err.message, true);
+            }
+        }
+
+        // Reset 2-PC Terminal Seats
+        async function resetShopSeats(mobile) {
+            if (!confirm(`Reset 2-PC terminal seats for shop ${mobile}?\nThis will disconnect currently active PCs so new computers can log in.`)) return;
+
+            try {
+                const resp = await fetch('/api/admin/shop/reset_seats', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ mobile_number: mobile })
+                });
+                const data = await resp.json();
+                if (data.success) {
+                    showToast(data.message);
+                    setTimeout(() => window.location.reload(), 1200);
+                } else {
+                    showToast(data.message || 'Error resetting seats', true);
+                }
+            } catch (err) {
+                showToast('Server connection error: ' + err.message, true);
+            }
+        }
+
+        // Search in shops table
+        function filterShopsTable() {
+            const query = document.getElementById('shopSearchInput').value.toLowerCase();
+            document.querySelectorAll('.shop-row').forEach(row => {
+                const text = row.getAttribute('data-search').toLowerCase();
+                row.style.display = text.includes(query) ? '' : 'none';
+            });
+        }
+
+        // Filter by Paid vs Trial
+        function filterShopStatus(status) {
+            document.querySelectorAll('.shop-filter-btn').forEach(b => {
+                b.classList.remove('bg-sky-950', 'text-sky-400', 'border-sky-800');
+                b.classList.add('bg-slate-800', 'text-slate-300');
+            });
+            event.target.classList.add('bg-sky-950', 'text-sky-400', 'border-sky-800');
+            event.target.classList.remove('bg-slate-800', 'text-slate-300');
+
+            document.querySelectorAll('.shop-row').forEach(row => {
+                const st = row.getAttribute('data-status');
+                if (status === 'ALL' || st === status) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        // Modals
+        function openRecordPaymentModal() {
+            document.getElementById('recordPaymentModal').classList.remove('hidden');
+        }
+        function closeRecordPaymentModal() {
+            document.getElementById('recordPaymentModal').classList.add('hidden');
+        }
+
+        // Submit Manual Payment
+        async function submitManualPayment(e) {
+            e.preventDefault();
+            const payload = {
+                mobile_number: document.getElementById('m_mobile').value.trim(),
+                plan: document.getElementById('m_plan').value,
+                payment_method: document.getElementById('m_method').value,
+                trx_id: document.getElementById('m_trx_id').value.trim(),
+                account_title: document.getElementById('m_notes').value.trim()
+            };
+
+            try {
+                const resp = await fetch('/api/payments/checkout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await resp.json();
+                if (data.success) {
+                    closeRecordPaymentModal();
+                    showToast(`Payment recorded! Expiry extended to ${data.new_expiry_date}`);
+                    setTimeout(() => window.location.reload(), 1500);
+                } else {
+                    showToast(data.message || 'Payment recording failed', true);
+                }
+            } catch (err) {
+                showToast('Server connection error: ' + err.message, true);
+            }
+        }
+
+        // Load Cloud Backups dynamically
+        async function loadBackups() {
+            const tbody = document.getElementById('backupsTableBody');
+            try {
+                const resp = await fetch('/api/admin/backups');
+                const data = await resp.json();
+                if (data.success && data.backups.length > 0) {
+                    tbody.innerHTML = data.backups.map(b => `
+                        <tr class="hover:bg-slate-800/30 transition">
+                            <td class="p-3.5 font-mono text-slate-400">#${b.id}</td>
+                            <td class="p-3.5 font-bold font-mono text-sky-400">${b.mobile_number}</td>
+                            <td class="p-3.5 font-bold text-white">${b.items_count} Items</td>
+                            <td class="p-3.5 font-bold text-white">${b.invoices_count} Invoices</td>
+                            <td class="p-3.5 text-purple-400 font-bold">${b.size_kb} KB</td>
+                            <td class="p-3.5 text-slate-400">${b.backup_timestamp}</td>
+                            <td class="p-3.5 text-center">
+                                <a href="/api/admin/backup/download/${b.id}" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-sky-400 font-bold transition">
+                                    <i class="fa-solid fa-download mr-1"></i>Download
+                                </a>
+                            </td>
+                        </tr>
+                    `).join('');
+                } else {
+                    tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-slate-400">No cloud backups recorded yet.</td></tr>`;
+                }
+            } catch (err) {
+                tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-red-400">Error loading backups.</td></tr>`;
+            }
+        }
+
+        // Load WhatsApp OTP Logs dynamically
+        async function loadOtpLogs() {
+            const tbody = document.getElementById('otpsTableBody');
+            try {
+                const resp = await fetch('/api/admin/otps');
+                const data = await resp.json();
+                if (data.success && data.otps.length > 0) {
+                    tbody.innerHTML = data.otps.map(o => `
+                        <tr class="hover:bg-slate-800/30 transition">
+                            <td class="p-3.5 font-bold font-mono text-sky-400">${o.mobile_number}</td>
+                            <td class="p-3.5 font-mono font-extrabold text-yellow-400 text-sm tracking-wider">${o.otp_code}</td>
+                            <td class="p-3.5 text-slate-300">${o.channel}</td>
+                            <td class="p-3.5">
+                                ${o.is_verified ? '<span class="px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800 font-bold">✔ Verified</span>' : '<span class="px-2 py-0.5 rounded bg-amber-950 text-amber-400 border border-amber-800">Pending</span>'}
+                            </td>
+                            <td class="p-3.5 text-slate-400">${o.expires_at}</td>
+                            <td class="p-3.5 text-slate-400">${o.created_at}</td>
+                        </tr>
+                    `).join('');
+                } else {
+                    tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400">No WhatsApp OTP verifications found.</td></tr>`;
+                }
+            } catch (err) {
+                tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-red-400">Error loading OTP logs.</td></tr>`;
+            }
+        }
+
+        // Initialize Chart.js
+        window.addEventListener('DOMContentLoaded', () => {
+            const ctx = document.getElementById('revenueChart');
+            if (ctx) {
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+                        datasets: [
+                            {
+                                label: 'Monthly Revenue (PKR)',
+                                data: [15000, 32000, 48000, 65000, 89000, 110000],
+                                borderColor: '#10b981',
+                                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                                tension: 0.35,
+                                fill: true,
+                                yAxisID: 'y'
+                            },
+                            {
+                                label: 'Registered Shops',
+                                data: [2, 5, 8, 12, 17, 24],
+                                borderColor: '#38bdf8',
+                                backgroundColor: 'transparent',
+                                borderDash: [5, 5],
+                                tension: 0.2,
+                                yAxisID: 'y1'
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: { color: '#94a3b8', font: { size: 11 } }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                grid: { color: 'rgba(51, 65, 85, 0.3)' },
+                                ticks: { color: '#94a3b8' }
+                            },
+                            y: {
+                                type: 'linear',
+                                display: true,
+                                position: 'left',
+                                grid: { color: 'rgba(51, 65, 85, 0.3)' },
+                                ticks: { color: '#10b981', callback: val => 'PKR ' + (val/1000) + 'k' }
+                            },
+                            y1: {
+                                type: 'linear',
+                                display: true,
+                                position: 'right',
+                                grid: { drawOnChartArea: false },
+                                ticks: { color: '#38bdf8' }
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
