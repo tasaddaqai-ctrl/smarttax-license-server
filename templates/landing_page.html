@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartTax FBR Digital Invoicer Pro | Pakistan's #1 Automated POS & FBR Compliance System</title>
+    <meta name="description" content="Fully compliant with FBR Digital Invoicing API v1.12, Section 23 Sales Tax Act 1990, and STGO 01/2024. Offline-first POS, 2-PC terminal support, automated JazzCash/EasyPaisa payments, and free cloud backups.">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            900: '#064e3b',
+                        },
+                        dark: {
+                            800: '#1e293b',
+                            900: '#0f172a',
+                            950: '#020617',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .urdu-font { font-family: 'Noto Nastaliq Urdu', serif; }
+        .gradient-text {
+            background: linear-gradient(135deg, #10b981 0%, #38bdf8 50%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glow-emerald {
+            box-shadow: 0 0 40px -10px rgba(16, 185, 129, 0.4);
+        }
+    </style>
+</head>
+<body class="bg-dark-950 text-slate-100 min-h-screen selection:bg-brand-500 selection:text-white">
+
+    <!-- Top Notice Banner -->
+    <div class="bg-gradient-to-r from-emerald-900/60 via-dark-900 to-emerald-900/60 border-b border-emerald-500/20 py-2.5 px-4 text-xs md:text-sm text-center">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-center gap-3">
+            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                <i class="fa-solid fa-certificate mr-1.5"></i> FBR Certified API v1.12
+            </span>
+            <span class="text-slate-300">Section 23 & STGO 01/2024 Compliant • Instant WhatsApp Verification</span>
+            <a href="https://wa.me/923417027610?text=Hello%20Tasaddaq%20Hussain,%20I%20want%20to%20inquire%20about%20SmartTax%20FBR%20Pro" target="_blank" class="text-emerald-400 hover:text-emerald-300 font-semibold underline flex items-center gap-1">
+                <i class="fa-brands fa-whatsapp"></i> Chat with Vendor (03417027610)
+            </a>
+        </div>
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-50 glass-card border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="/" class="flex items-center gap-3 group">
+                <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform">
+                    <i class="fa-solid fa-file-invoice text-white text-xl"></i>
+                </div>
+                <div>
+                    <div class="text-xl font-extrabold tracking-tight flex items-center gap-2">
+                        SmartTax <span class="text-emerald-400">FBR Pro</span>
+                        <span class="text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded">v4.0</span>
+                    </div>
+                    <div class="text-[11px] text-slate-400">Pakistan Digital Invoicing & POS</div>
+                </div>
+            </a>
+
+            <!-- Nav Links -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+                <a href="#features" class="hover:text-emerald-400 transition-colors">Features</a>
+                <a href="#compliance" class="hover:text-emerald-400 transition-colors">FBR Compliance</a>
+                <a href="#pricing" class="hover:text-emerald-400 transition-colors">Pricing</a>
+                <a href="#register" class="hover:text-emerald-400 transition-colors">Register Free</a>
+                <a href="#faq" class="hover:text-emerald-400 transition-colors">FAQs</a>
+            </nav>
+
+            <!-- CTA Actions -->
+            <div class="flex items-center gap-3">
+                <a href="/admin" class="hidden sm:inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700 rounded-lg border border-slate-700 transition">
+                    <i class="fa-solid fa-lock text-emerald-400"></i> Vendor Portal
+                </a>
+                <a href="#download" class="inline-flex items-center gap-2 px-4 py-2.5 text-xs sm:text-sm font-bold text-slate-950 bg-gradient-to-r from-emerald-400 to-teal-300 hover:from-emerald-300 hover:to-teal-200 rounded-xl shadow-lg shadow-emerald-500/20 hover:scale-105 transition transform">
+                    <i class="fa-solid fa-download"></i> Download Free (.exe)
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative pt-16 pb-24 overflow-hidden">
+        <!-- Background Glows -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[350px] bg-emerald-500/10 rounded-full blur-[140px] pointer-events-none"></div>
+        <div class="absolute top-1/3 left-1/4 w-[350px] h-[350px] bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <!-- Pill Badge -->
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold mb-6">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                Official Sales Tax Digital Invoicing for Tier-1 Retailers & Wholesalers
+            </div>
+
+            <!-- Main Heading -->
+            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight max-w-5xl mx-auto leading-tight sm:leading-[1.15]">
+                Pakistan's Most Reliable <br>
+                <span class="gradient-text">FBR Digital Invoicing</span> & POS Software
+            </h1>
+
+            <!-- Subtitle -->
+            <p class="mt-6 text-lg sm:text-xl text-slate-300 max-w-3xl mx-auto font-normal leading-relaxed">
+                Connect your business directly with the Federal Board of Revenue (FBR) in real-time. Works 
+                <strong class="text-white font-semibold">100% offline</strong> without internet stoppage, supports 
+                <strong class="text-white font-semibold">2 PC counter terminals</strong> simultaneously, with automated 
+                JazzCash, EasyPaisa & NayaPay direct mobile wallet payments.
+            </p>
+
+            <!-- Action Buttons -->
+            <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#download" class="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl text-slate-950 bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-400 font-extrabold text-base shadow-xl shadow-emerald-500/25 hover:shadow-emerald-500/40 hover:scale-[1.02] transition transform">
+                    <i class="fa-solid fa-download text-lg"></i>
+                    <span>Download Setup for Windows (v4.0)</span>
+                </a>
+                <a href="#register" class="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl text-white bg-slate-800/90 hover:bg-slate-700/90 font-bold text-base border border-slate-700 shadow-lg hover:border-emerald-500/40 transition">
+                    <i class="fa-solid fa-calendar-check text-emerald-400"></i>
+                    <span>Start 30-Day Free Trial</span>
+                </a>
+            </div>
+
+            <!-- Key Trust Badges -->
+            <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto pt-8 border-t border-slate-800/80">
+                <div class="flex items-center justify-center gap-2.5 text-xs font-semibold text-slate-300">
+                    <i class="fa-solid fa-bolt text-emerald-400 text-sm"></i>
+                    <span>PRAL Sandbox & Live v1.12</span>
+                </div>
+                <div class="flex items-center justify-center gap-2.5 text-xs font-semibold text-slate-300">
+                    <i class="fa-solid fa-shield-halved text-cyan-400 text-sm"></i>
+                    <span>Section 23 Compliant</span>
+                </div>
+                <div class="flex items-center justify-center gap-2.5 text-xs font-semibold text-slate-300">
+                    <i class="fa-solid fa-desktop text-amber-400 text-sm"></i>
+                    <span>2 PCs Per Shop License</span>
+                </div>
+                <div class="flex items-center justify-center gap-2.5 text-xs font-semibold text-slate-300">
+                    <i class="fa-solid fa-cloud-arrow-up text-indigo-400 text-sm"></i>
+                    <span>Encrypted Cloud Auto-Vault</span>
+                </div>
+            </div>
+
+            <!-- Software Screenshot / Interactive Preview -->
+            <div class="mt-14 max-w-5xl mx-auto rounded-2xl p-2.5 bg-gradient-to-b from-slate-700/50 via-slate-800/30 to-slate-900/50 border border-slate-700/60 shadow-2xl glow-emerald">
+                <div class="rounded-xl overflow-hidden bg-slate-900 border border-slate-800">
+                    <!-- Fake Mac/Windows Header -->
+                    <div class="bg-slate-950 px-4 py-3 border-b border-slate-800 flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-red-500/80 inline-block"></span>
+                            <span class="w-3 h-3 rounded-full bg-amber-500/80 inline-block"></span>
+                            <span class="w-3 h-3 rounded-full bg-emerald-500/80 inline-block"></span>
+                            <span class="ml-3 text-xs font-mono text-slate-400">SmartTax FBR Digital Invoicer Pro v4.0 — [Terminal 1: Al-Madina Traders]</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-xs">
+                            <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-mono">FBR LIVE SYNC: ONLINE</span>
+                            <span class="px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-mono">SEAT: 1 of 2 ACTIVE</span>
+                        </div>
+                    </div>
+
+                    <!-- App UI Mockup Layout -->
+                    <div class="p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 text-left">
+                        <!-- Left: Invoice Entry -->
+                        <div class="lg:col-span-7 space-y-4">
+                            <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800">
+                                <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Customer & Tax Details</div>
+                                <div class="grid grid-cols-2 gap-3 text-xs">
+                                    <div class="bg-slate-900 p-2.5 rounded border border-slate-800">
+                                        <div class="text-slate-500 text-[10px]">Buyer NTN / CNIC</div>
+                                        <div class="font-mono text-emerald-300 font-bold">35201-9876543-1</div>
+                                    </div>
+                                    <div class="bg-slate-900 p-2.5 rounded border border-slate-800">
+                                        <div class="text-slate-500 text-[10px]">Buyer Name</div>
+                                        <div class="font-semibold text-slate-200 truncate">Haji Sons Cloth Wholesalers</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Table of items -->
+                            <div class="bg-slate-950/60 rounded-xl border border-slate-800 overflow-hidden text-xs">
+                                <div class="bg-slate-900/80 px-3 py-2 border-b border-slate-800 font-semibold text-slate-400 grid grid-cols-12">
+                                    <span class="col-span-5">Item Description (PCT Code)</span>
+                                    <span class="col-span-2 text-center">Qty</span>
+                                    <span class="col-span-2 text-right">Rate</span>
+                                    <span class="col-span-3 text-right">Tax (18%)</span>
+                                </div>
+                                <div class="p-3 space-y-2">
+                                    <div class="grid grid-cols-12 items-center text-slate-300">
+                                        <div class="col-span-5">
+                                            <div class="font-medium text-slate-100">Cotton Fabric Roll 40m</div>
+                                            <div class="text-[10px] text-slate-500 font-mono">PCT: 5208.1100</div>
+                                        </div>
+                                        <div class="col-span-2 text-center font-mono">10</div>
+                                        <div class="col-span-2 text-right font-mono">PKR 4,500</div>
+                                        <div class="col-span-3 text-right font-mono text-emerald-400 font-bold">PKR 8,100</div>
+                                    </div>
+                                    <div class="grid grid-cols-12 items-center text-slate-300 pt-2 border-t border-slate-800/60">
+                                        <div class="col-span-5">
+                                            <div class="font-medium text-slate-100">Polyester Yarn Cones</div>
+                                            <div class="text-[10px] text-slate-500 font-mono">PCT: 5402.3300</div>
+                                        </div>
+                                        <div class="col-span-2 text-center font-mono">25</div>
+                                        <div class="col-span-2 text-right font-mono">PKR 1,200</div>
+                                        <div class="col-span-3 text-right font-mono text-emerald-400 font-bold">PKR 5,400</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right: FBR QR Code & Section 23 Preview -->
+                        <div class="lg:col-span-5 bg-slate-950/80 p-4 rounded-xl border border-slate-800 flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+                                    <div>
+                                        <div class="text-xs font-bold text-white">FBR PRAL LIVE VERIFIED</div>
+                                        <div class="text-[10px] font-mono text-emerald-400 font-bold">INV: 20261018-0341-9982</div>
+                                    </div>
+                                    <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-[10px] font-bold border border-emerald-500/30">
+                                        <i class="fa-solid fa-check-double mr-1"></i> FBR ACKNOWLEDGED
+                                    </span>
+                                </div>
+
+                                <!-- Real QR preview simulator -->
+                                <div class="my-4 p-3 bg-white rounded-lg flex items-center justify-center gap-4 text-slate-950">
+                                    <div class="w-24 h-24 bg-slate-100 border border-slate-300 rounded flex items-center justify-center p-1">
+                                        <!-- SVG QR placeholder -->
+                                        <svg class="w-full h-full text-slate-900" viewBox="0 0 100 100" fill="currentColor">
+                                            <path d="M0,0 h30 v30 h-30 z M10,10 h10 v10 h-10 z M70,0 h30 v30 h-30 z M80,10 h10 v10 h-10 z M0,70 h30 v30 h-30 z M10,80 h10 v10 h-10 z M40,10 h10 v20 h-10 z M60,40 h10 v10 h-10 z M40,60 h20 v20 h-20 z M70,70 h20 v10 h-20 z M80,80 h20 v20 h-20 z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="text-[11px] leading-tight space-y-1">
+                                        <div class="font-bold text-xs">Section 23 Tax Invoice</div>
+                                        <div class="text-slate-600">Total Tax: <strong>PKR 13,500</strong></div>
+                                        <div class="text-slate-600">Net Payable: <strong>PKR 88,500</strong></div>
+                                        <div class="text-[10px] font-mono text-emerald-700 bg-emerald-50 px-1 py-0.5 rounded border border-emerald-200">
+                                            FBR-STATUS: CODE 100
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="pt-3 border-t border-slate-800 text-xs flex items-center justify-between text-slate-400">
+                                <span><i class="fa-solid fa-print text-slate-500 mr-1"></i> 80mm POS & A4 Ready</span>
+                                <span class="text-emerald-400 font-semibold">Auto-Synced to Cloud</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-24 bg-dark-900/60 border-y border-slate-800 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto">
+                <h2 class="text-xs uppercase font-extrabold tracking-widest text-emerald-400 mb-3">Enterprise Power Built for Pakistani Retailers</h2>
+                <h3 class="text-3xl sm:text-4xl font-extrabold text-white">Everything Your Business Needs for Complete FBR Compliance</h3>
+                <p class="mt-4 text-slate-400 text-sm sm:text-base">
+                    Eliminate compliance penalties, avoid audit red flags, and modernize your shop or wholesale billing counter with precision.
+                </p>
+            </div>
+
+            <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="glass-card p-8 rounded-2xl hover:border-emerald-500/40 transition duration-300 group">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-xl group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-qrcode"></i>
+                    </div>
+                    <h4 class="mt-6 text-xl font-bold text-white group-hover:text-emerald-400 transition-colors">FBR Digital Invoicing API v1.12</h4>
+                    <p class="mt-3 text-slate-400 text-sm leading-relaxed">
+                        Instant electronic validation with FBR PRAL servers. Generates compliant cryptographic FBR QR Codes, unique digital invoice numbers, and real-time acknowledgement.
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="glass-card p-8 rounded-2xl hover:border-cyan-500/40 transition duration-300 group">
+                    <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 text-xl group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-wifi-slash"></i>
+                    </div>
+                    <h4 class="mt-6 text-xl font-bold text-white group-hover:text-cyan-400 transition-colors">100% Offline-First Architecture</h4>
+                    <p class="mt-3 text-slate-400 text-sm leading-relaxed">
+                        Internet outages or loadshedding? No problem. Invoices generate instantly offline with local cryptographic numbering and automatically push to FBR the second connectivity returns.
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="glass-card p-8 rounded-2xl hover:border-indigo-500/40 transition duration-300 group">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 text-xl group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-network-wired"></i>
+                    </div>
+                    <h4 class="mt-6 text-xl font-bold text-white group-hover:text-indigo-400 transition-colors">Multi-PC Terminal Support (2 PCs)</h4>
+                    <p class="mt-3 text-slate-400 text-sm leading-relaxed">
+                        Each shop license includes authorization for 2 billing counters simultaneously. Session heartbeats protect against unauthorized PC sharing while keeping operations smooth.
+                    </p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="glass-card p-8 rounded-2xl hover:border-amber-500/40 transition duration-300 group">
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-xl group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-mobile-screen-button"></i>
+                    </div>
+                    <h4 class="mt-6 text-xl font-bold text-white group-hover:text-amber-400 transition-colors">Instant Automated Mobile Wallet Renewal</h4>
+                    <p class="mt-3 text-slate-400 text-sm leading-relaxed">
+                        Zero manual transaction ID typing! Directly pushes USSD MPIN requests to your JazzCash, EasyPaisa, or NayaPay mobile app. Instant auto-unlock and failover limit protection.
+                    </p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="glass-card p-8 rounded-2xl hover:border-emerald-500/40 transition duration-300 group">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-xl group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                    </div>
+                    <h4 class="mt-6 text-xl font-bold text-white group-hover:text-emerald-400 transition-colors">Free Cloud Storage & Backup Vault</h4>
+                    <p class="mt-3 text-slate-400 text-sm leading-relaxed">
+                        Integrated with 100% free cloud services (Supabase & Render). AES-256 encrypted database snapshots back up automatically every night so your sales data is never lost.
+                    </p>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="glass-card p-8 rounded-2xl hover:border-rose-500/40 transition duration-300 group">
+                    <div class="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-400 text-xl group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-print"></i>
+                    </div>
+                    <h4 class="mt-6 text-xl font-bold text-white group-hover:text-rose-400 transition-colors">Section 23 POS & A4 Printing</h4>
+                    <p class="mt-3 text-slate-400 text-sm leading-relaxed">
+                        Pre-formatted thermal receipts (80mm & 58mm) and standard A4 commercial tax invoices. Includes buyer NTN/CNIC, PCT codes, itemized sales tax, and full statutory compliance.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FBR Compliance Section -->
+    <section id="compliance" class="py-24 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-4">
+                        <i class="fa-solid fa-scale-balanced mr-2"></i> Statutory Compliance Guide
+                    </span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white leading-tight">
+                        Built Specifically for the Sales Tax Act 1990 & STGO 01/2024
+                    </h2>
+                    <p class="mt-5 text-slate-300 text-base leading-relaxed">
+                        The Federal Board of Revenue requires all Tier-1 Retailers, Wholesalers, and registered businesses to electronically transmit sales tax invoices in real-time. SmartTax FBR Pro meets every requirement without changing your day-to-day workflow.
+                    </p>
+
+                    <div class="mt-8 space-y-4">
+                        <div class="flex items-start gap-4">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0 mt-1">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold text-sm">FBR IRIS Sandbox & Production Tokens</h4>
+                                <p class="text-slate-400 text-xs mt-1">Easily switch between Sandbox testing and live FBR Production environment with your official PRAL POS Token.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0 mt-1">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold text-sm">Mandatory Section 23 Invoice Elements</h4>
+                                <p class="text-slate-400 text-xs mt-1">Automatic inclusion of Seller NTN/STRN, Buyer NTN or CNIC, consecutive serial invoice number, PCT codes, and tax breakdowns.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0 mt-1">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold text-sm">Tax Asaan App Scannable QR Codes</h4>
+                                <p class="text-slate-400 text-xs mt-1">Customers and tax inspectors can scan the printed receipt using the official FBR Tax Asaan mobile app to verify authentication on the spot.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Comparison / Stat Box -->
+                <div class="glass-card p-8 rounded-3xl border border-slate-700/60 space-y-6">
+                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-shield-virus text-emerald-400"></i> FBR Compliance Penalty Prevention
+                    </h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Under Section 33 of the Sales Tax Act 1990, non-compliance with digital invoicing carries penalties of up to <strong>PKR 500,000</strong> or shop sealing. SmartTax Pro guarantees 100% compliance out of the box.
+                    </p>
+
+                    <div class="grid grid-cols-2 gap-4 pt-4 border-t border-slate-800">
+                        <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800">
+                            <div class="text-2xl font-extrabold text-emerald-400">100%</div>
+                            <div class="text-xs text-slate-400 mt-1">FBR PRAL Acceptance</div>
+                        </div>
+                        <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800">
+                            <div class="text-2xl font-extrabold text-cyan-400">0.4s</div>
+                            <div class="text-xs text-slate-400 mt-1">Sync Response Time</div>
+                        </div>
+                        <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800">
+                            <div class="text-2xl font-extrabold text-indigo-400">2 PCs</div>
+                            <div class="text-xs text-slate-400 mt-1">Simultaneous Counters</div>
+                        </div>
+                        <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800">
+                            <div class="text-2xl font-extrabold text-amber-400">30 Days</div>
+                            <div class="text-xs text-slate-400 mt-1">Zero-Cost Evaluation</div>
+                        </div>
+                    </div>
+
+                    <div class="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-xl flex items-center gap-3 text-xs text-emerald-300">
+                        <i class="fa-solid fa-headset text-lg text-emerald-400"></i>
+                        <span>Need FBR Token Guidance? Contact Tasaddaq Hussain directly at <strong>03417027610</strong></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-24 bg-dark-900/50 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-4">
+                <i class="fa-solid fa-tags mr-2"></i> Transparent & Affordable
+            </span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Simple Pricing For Every Pakistani Business</h2>
+            <p class="mt-4 text-slate-400 text-sm sm:text-base max-w-2xl mx-auto">
+                No hidden costs. 100% money-back guarantee. Instant online payment via JazzCash, EasyPaisa, or NayaPay.
+            </p>
+
+            <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto text-left">
+                <!-- Plan 1: 30-Day Free Trial -->
+                <div class="glass-card p-8 rounded-3xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition">
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-lg font-bold text-white">30-Day Evaluation</h3>
+                            <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-slate-800 text-slate-300">FREE</span>
+                        </div>
+                        <div class="mt-6 flex items-baseline">
+                            <span class="text-4xl font-extrabold text-white">PKR 0</span>
+                            <span class="ml-2 text-xs text-slate-400">/ 30 days</span>
+                        </div>
+                        <p class="mt-3 text-xs text-slate-400">Complete risk-free trial for testing with FBR Sandbox and Live invoicing.</p>
+
+                        <div class="mt-8 space-y-3 text-xs text-slate-300">
+                            <div class="flex items-center gap-2.5"><i class="fa-solid fa-check text-emerald-400"></i> Full FBR API v1.12 Integration</div>
+                            <div class="flex items-center gap-2.5"><i class="fa-solid fa-check text-emerald-400"></i> Up to 2 PC Terminals</div>
+                            <div class="flex items-center gap-2.5"><i class="fa-solid fa-check text-emerald-400"></i> Thermal POS & A4 Receipts</div>
+                            <div class="flex items-center gap-2.5"><i class="fa-solid fa-check text-emerald-400"></i> WhatsApp OTP Verified Login</div>
+                            <div class="flex items-center gap-2.5"><i class="fa-solid fa-check text-emerald-400"></i> Offline Invoicing Mode</div>
+                        </div>
+                    </div>
+                    <a href="#register" class="mt-8 w-full py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs text-center block transition">
+                        Start 30-Day Free Trial
+                    </a>
+                </div>
+
+                <!-- Plan 2: Annual Commercial (Featured) -->
+                <div class="relative glass-card p-8 rounded-3xl border-2 border-emerald-500/80 bg-gradient-to-b from-emerald-950/20 to-slate-900/80 shadow-2xl glow-emerald flex flex-col justify-between">
+                    <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-emerald-500 to-teal-400 text-slate-950 text-xs font-black tracking-wider uppercase shadow-md">
+                        ★ MOST POPULAR & BEST VALUE ★
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between mt-2">
+                            <h3 class="text-lg font-bold text-white">Annual Commercial</h3>
+                            <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">SAVE PKR 8,000</span>
+                        </div>
+                        <div class="mt-6 flex items-baseline">
+                            <span class="text-4xl font-extrabold text-white">PKR 22,000</span>
+                            <span class="ml-2 text-xs text-slate-400">/ year</span>
+                        </div>
+                        <p class="mt-3 text-xs text-slate-300">Equivalent to only PKR 1,833/month. Full enterprise commercial license.</p>
+
+                        <div class="mt-8 space-y-3 text-xs text-slate-200">
+                            <div class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-emerald-400"></i> <strong>Everything in Free Trial</strong></div>
+                            <div class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-emerald-400"></i> Unlimited Sales Invoices for 365 Days</div>
+                            <div class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-emerald-400"></i> 2 PC Billing Counters Included</div>
+                            <div class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-emerald-400"></i> Automated Cloud Storage Backups</div>
+                            <div class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-emerald-400"></i> Automated 1-Click Mobile Wallet Renewal</div>
+                            <div class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-emerald-400"></i> Direct VIP WhatsApp Support</div>
+                        </div>
+                    </div>
+                    <a href="#register" class="mt-8 w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-400 to-teal-300 hover:from-emerald-300 hover:to-teal-200 text-slate-950 font-black text-sm text-center block shadow-lg shadow-emerald-500/20 hover:scale-[1.02] transition transform">
+                        Activate Annual License
+                    </a>
+                </div>
+
+                <!-- Plan 3: Monthly Commercial -->
+                <div class="glass-card p-8 rounded-3xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition">
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-lg font-bold text-white">Monthly Flexible</h3>
+                            <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-slate-800 text-slate-300">FLEXIBLE</span>
+                        </div>
+                        <div class="mt-6 flex items-baseline">
+                            <span class="text-4xl font-extrabold text-white">PKR 2,500</span>
+                            <span class="ml-2 text-xs text-slate-400">/ month</span>
+                        </div>
+                        <p class="mt-3 text-xs text-slate-400">Pay month-to-month. Cancel anytime without penalty.</p>
+
+                        <div class="mt-8 space-y-3 text-xs text-slate-300">
+                            <div class="flex items-center gap-2.5"><i class="fa-solid fa-check text-emerald-400"></i> Full FBR API Integration</div>
+                            <div class="flex items-center gap-2.5"><i class="fa-solid fa-check text-emerald-400"></i> Unlimited Monthly Invoicing</div>
+                            <div class="flex items-center gap-2.5"><i class="fa-solid fa-check text-emerald-400"></i> 2 PC Multi-Device Access</div>
+                            <div class="flex items-center gap-2.5"><i class="fa-solid fa-check text-emerald-400"></i> Cloud Auto-Backup Vault</div>
+                            <div class="flex items-center gap-2.5"><i class="fa-solid fa-check text-emerald-400"></i> Instant Mobile Wallet Renewal</div>
+                        </div>
+                    </div>
+                    <a href="#register" class="mt-8 w-full py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs text-center block transition">
+                        Select Monthly Plan
+                    </a>
+                </div>
+            </div>
+
+            <!-- Vendor Verified Payment Info Banner -->
+            <div class="mt-14 max-w-4xl mx-auto glass-card p-6 rounded-2xl border border-emerald-500/30 text-left flex flex-col sm:flex-row items-center justify-between gap-6">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-2xl shrink-0">
+                        <i class="fa-solid fa-wallet"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs uppercase font-extrabold tracking-wider text-emerald-400">Official Software Vendor Details</div>
+                        <div class="text-base font-extrabold text-white">Tasaddaq Hussain — <span class="font-mono text-emerald-300">03417027610</span></div>
+                        <div class="text-xs text-slate-400 mt-0.5">Automated Mobile Wallets: <strong>JazzCash • EasyPaisa • NayaPay</strong></div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <a href="https://wa.me/923417027610?text=Assalam-o-Alaikum%20Tasaddaq%20bhai,%20mujhy%20SmartTax%20FBR%20Pro%20chahiye" target="_blank" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold text-xs flex items-center gap-2 shadow transition">
+                        <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp (03417027610)
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Center Section -->
+    <section id="download" class="py-24 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 mb-4">
+                <i class="fa-brands fa-windows mr-2"></i> Free Windows Download
+            </span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Download SmartTax FBR Pro v4.0</h2>
+            <p class="mt-4 text-slate-400 text-sm sm:text-base max-w-2xl mx-auto">
+                Ready to run on Windows 10, Windows 11, and Windows Server (64-bit). No complex database setup required.
+            </p>
+
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto text-left">
+                <!-- Package Option 1: Complete Setup Archive (.zip) -->
+                <div class="glass-card p-8 rounded-3xl border-2 border-emerald-500/50 hover:border-emerald-500 transition duration-300 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-2xl">
+                                <i class="fa-solid fa-file-zipper"></i>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 uppercase">
+                                Recommended Package
+                            </span>
+                        </div>
+                        <h3 class="mt-6 text-xl font-bold text-white">Complete Setup Archive (.zip)</h3>
+                        <p class="mt-2 text-xs text-slate-400">
+                            Includes <code>SmartTax_FBR_v4.exe</code>, all pre-compiled Qt5 graphical drivers, SQLite database engine, and sample invoice templates.
+                        </p>
+                        <div class="mt-4 text-xs font-mono text-emerald-400 flex items-center gap-4">
+                            <span><i class="fa-regular fa-hdd mr-1"></i> Version: 4.0.0</span>
+                            <span><i class="fa-solid fa-shield-halved mr-1"></i> Clean & Virus-Free</span>
+                        </div>
+                    </div>
+                    <div class="mt-8">
+                        <a href="/download/setup" class="w-full py-4 rounded-xl bg-gradient-to-r from-emerald-400 to-teal-300 hover:from-emerald-300 hover:to-teal-200 text-slate-950 font-extrabold text-sm flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 hover:scale-[1.02] transition transform">
+                            <i class="fa-solid fa-download text-base"></i> Download Setup Package (.zip)
+                        </a>
+                        <div class="mt-2 text-center text-[11px] text-slate-500">Unzip anywhere and double-click SmartTax_FBR_v4.exe</div>
+                    </div>
+                </div>
+
+                <!-- Package Option 2: Standalone Executable (.exe) -->
+                <div class="glass-card p-8 rounded-3xl border border-slate-800 hover:border-slate-700 transition flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <div class="w-12 h-12 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-2xl">
+                                <i class="fa-brands fa-windows"></i>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-800 text-slate-400 uppercase">
+                                Direct Executable
+                            </span>
+                        </div>
+                        <h3 class="mt-6 text-xl font-bold text-white">Direct Standalone Executable (.exe)</h3>
+                        <p class="mt-2 text-xs text-slate-400">
+                            Direct download of the main executable file. Best if you already have the required dynamic runtime environment or are updating an existing build.
+                        </p>
+                        <div class="mt-4 text-xs font-mono text-cyan-400 flex items-center gap-4">
+                            <span><i class="fa-regular fa-hdd mr-1"></i> Build: SmartTax_FBR_v4</span>
+                            <span><i class="fa-solid fa-microchip mr-1"></i> 64-bit Architecture</span>
+                        </div>
+                    </div>
+                    <div class="mt-8">
+                        <a href="/download/exe" class="w-full py-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm flex items-center justify-center gap-2 border border-slate-700 transition">
+                            <i class="fa-solid fa-download text-base"></i> Download SmartTax_FBR_v4.exe
+                        </a>
+                        <div class="mt-2 text-center text-[11px] text-slate-500">Requires Windows 10/11 x64</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick 3-Step Setup Guide -->
+            <div class="mt-16 max-w-4xl mx-auto glass-card p-8 rounded-2xl border border-slate-800 text-left">
+                <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-6 flex items-center gap-2">
+                    <i class="fa-solid fa-list-check text-emerald-400"></i> 3-Step Quick Start Guide (Asaan Setup)
+                </h4>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
+                    <div class="space-y-2">
+                        <div class="w-7 h-7 rounded-full bg-emerald-500/20 text-emerald-400 font-extrabold flex items-center justify-center">1</div>
+                        <div class="font-bold text-white">Download & Extract</div>
+                        <div class="text-slate-400">Download the zip package above and extract it to any folder (e.g. <code>C:\SmartTax</code> or Desktop).</div>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="w-7 h-7 rounded-full bg-cyan-500/20 text-cyan-400 font-extrabold flex items-center justify-center">2</div>
+                        <div class="font-bold text-white">Run & Register Free</div>
+                        <div class="text-slate-400">Open <code>SmartTax_FBR_v4.exe</code>, enter your shop mobile number, receive instant WhatsApp OTP, and set your 4-digit PIN.</div>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="w-7 h-7 rounded-full bg-indigo-500/20 text-indigo-400 font-extrabold flex items-center justify-center">3</div>
+                        <div class="font-bold text-white">Start Digital Billing</div>
+                        <div class="text-slate-400">Enter your FBR PRAL POS token or use built-in Sandbox mode to issue verified QR code invoices immediately!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Online Registration & WhatsApp OTP Section -->
+    <section id="register" class="py-24 bg-dark-900/60 border-t border-slate-800 relative">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-card p-8 sm:p-12 rounded-3xl border border-emerald-500/30 shadow-2xl relative overflow-hidden">
+                <!-- Background decoration -->
+                <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="text-center max-w-xl mx-auto">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-3">
+                        <i class="fa-brands fa-whatsapp mr-1.5 text-emerald-400"></i> Instant WhatsApp Verification
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Create Your Shop Cloud Account</h2>
+                    <p class="mt-2 text-xs sm:text-sm text-slate-400">
+                        Get your 30-Day Free Trial instantly. No credit card required. Use your mobile number to log in from 2 PC terminals.
+                    </p>
+                </div>
+
+                <!-- Registration Form -->
+                <form id="onlineRegisterForm" class="mt-8 space-y-5 max-w-lg mx-auto" onsubmit="handleOnlineRegister(event)">
+                    <!-- Shop Name -->
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1.5">Business / Shop Name *</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-500"><i class="fa-solid fa-store"></i></span>
+                            <input type="text" id="regShopName" required placeholder="e.g. Al-Madina Super Store & Wholesalers" class="w-full pl-10 pr-4 py-3 bg-slate-900/90 border border-slate-700 rounded-xl text-white text-sm focus:outline-none focus:border-emerald-400">
+                        </div>
+                    </div>
+
+                    <!-- City / Province -->
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1.5">City & Province *</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-500"><i class="fa-solid fa-location-dot"></i></span>
+                            <input type="text" id="regCity" required placeholder="e.g. Lahore, Punjab" class="w-full pl-10 pr-4 py-3 bg-slate-900/90 border border-slate-700 rounded-xl text-white text-sm focus:outline-none focus:border-emerald-400">
+                        </div>
+                    </div>
+
+                    <!-- Mobile Number + OTP Button -->
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1.5">WhatsApp Mobile Number (Primary Login ID) *</label>
+                        <div class="flex gap-2">
+                            <div class="relative flex-1">
+                                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-500 font-mono text-xs">+92</span>
+                                <input type="text" id="regMobile" required placeholder="03XXXXXXXXX" maxlength="11" class="w-full pl-12 pr-4 py-3 bg-slate-900/90 border border-slate-700 rounded-xl text-white text-sm font-mono focus:outline-none focus:border-emerald-400">
+                            </div>
+                            <button type="button" id="btnSendOtp" onclick="sendWhatsAppOtp()" class="px-4 py-3 bg-emerald-600/80 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl border border-emerald-500/40 flex items-center gap-1.5 shrink-0 transition">
+                                <i class="fa-brands fa-whatsapp"></i> <span>Send OTP</span>
+                            </button>
+                        </div>
+                        <div id="otpNotice" class="hidden mt-2 text-[11px] text-emerald-400 bg-emerald-500/10 p-2.5 rounded-lg border border-emerald-500/20"></div>
+                    </div>
+
+                    <!-- OTP Code (Hidden initially) -->
+                    <div id="otpInputGroup" class="hidden">
+                        <label class="block text-xs font-semibold text-emerald-300 mb-1.5">Enter 6-Digit WhatsApp OTP Code *</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-emerald-400"><i class="fa-solid fa-key"></i></span>
+                            <input type="text" id="regOtpCode" maxlength="6" placeholder="Enter OTP from WhatsApp" class="w-full pl-10 pr-4 py-3 bg-slate-900 border border-emerald-500/50 rounded-xl text-emerald-300 font-mono text-sm tracking-widest focus:outline-none focus:border-emerald-400">
+                        </div>
+                    </div>
+
+                    <!-- 4-Digit Security PIN -->
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1.5">Create 4-Digit Master PIN (For Terminal Login) *</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-500"><i class="fa-solid fa-lock"></i></span>
+                            <input type="password" id="regPin" required maxlength="4" placeholder="••••" class="w-full pl-10 pr-4 py-3 bg-slate-900/90 border border-slate-700 rounded-xl text-white text-sm font-mono tracking-widest focus:outline-none focus:border-emerald-400">
+                        </div>
+                        <div class="text-[11px] text-slate-500 mt-1">Remember this PIN. You will enter it with your mobile number to log in on your PCs.</div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" id="btnSubmitReg" class="w-full py-4 bg-gradient-to-r from-emerald-400 to-teal-300 hover:from-emerald-300 hover:to-teal-200 text-slate-950 font-extrabold text-sm rounded-xl shadow-lg shadow-emerald-500/25 transition">
+                        <i class="fa-solid fa-user-plus mr-1.5"></i> Register Shop & Unlock 30-Day Free Trial
+                    </button>
+
+                    <!-- Status Display -->
+                    <div id="regStatus" class="hidden text-center text-xs p-3 rounded-xl"></div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQs Section -->
+    <section id="faq" class="py-24 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 mb-3">
+                <i class="fa-solid fa-circle-question mr-1.5"></i> Help & Clarity
+            </span>
+            <h2 class="text-3xl font-extrabold text-white">Frequently Asked Questions</h2>
+            <p class="mt-2 text-slate-400 text-sm">Everything you need to know about SmartTax FBR Pro and FBR compliance.</p>
+        </div>
+
+        <div class="mt-12 space-y-4">
+            <!-- FAQ 1 -->
+            <div class="glass-card p-6 rounded-2xl border border-slate-800">
+                <h4 class="text-base font-bold text-white flex items-center gap-3">
+                    <i class="fa-solid fa-circle-question text-emerald-400"></i>
+                    FBR Digital Invoicing Token kahan se mile ga?
+                </h4>
+                <p class="mt-3 text-slate-300 text-xs sm:text-sm leading-relaxed">
+                    Aapko FBR Digital Invoicing token FBR ke official IRIS portal ya e-portal par login kar ke "Digital Invoicing / POS Integration" tab se generate karna hota hai. Agar aapko koi mushkil pesh aaye to humare vendor Tasaddaq Hussain (03417027610) se WhatsApp par rabta karen, hum token generation me free guidance dete hain.
+                </p>
+            </div>
+
+            <!-- FAQ 2 -->
+            <div class="glass-card p-6 rounded-2xl border border-slate-800">
+                <h4 class="text-base font-bold text-white flex items-center gap-3">
+                    <i class="fa-solid fa-circle-question text-emerald-400"></i>
+                    Internet band ho jaye to kia invoices banti rahengi?
+                </h4>
+                <p class="mt-3 text-slate-300 text-xs sm:text-sm leading-relaxed">
+                    Jee bilkul! SmartTax Pro <strong>100% Offline-First</strong> design hai. Internet band hone par bhi sales, receipts aur bills foran print hote hain aur un par local sequential tax numbering hoti hai. Jaise hi internet dobara connect hoga, software background me tamam invoices khud-ba-khud FBR portal par sync kar dega.
+                </p>
+            </div>
+
+            <!-- FAQ 3 -->
+            <div class="glass-card p-6 rounded-2xl border border-slate-800">
+                <h4 class="text-base font-bold text-white flex items-center gap-3">
+                    <i class="fa-solid fa-circle-question text-emerald-400"></i>
+                    Aik license par kitne computers par login kar sakte hain?
+                </h4>
+                <p class="mt-3 text-slate-300 text-xs sm:text-sm leading-relaxed">
+                    Har shop license me <strong>2 computers (terminals)</strong> shamil hain. Aap shop ke do counters par aik hi mobile number aur PIN se ba-yak-waqt billing kar sakte hain. Agar aapko PC tabdeel karna ho to Vendor portal se 1-click me seats reset ki ja sakti hain.
+                </p>
+            </div>
+
+            <!-- FAQ 4 -->
+            <div class="glass-card p-6 rounded-2xl border border-slate-800">
+                <h4 class="text-base font-bold text-white flex items-center gap-3">
+                    <i class="fa-solid fa-circle-question text-emerald-400"></i>
+                    Payment ka process kaisa hai?
+                </h4>
+                <p class="mt-3 text-slate-300 text-xs sm:text-sm leading-relaxed">
+                    Hamara payment process 100% automated aur instant hai. Aap software me apna JazzCash, EasyPaisa ya NayaPay number enter karte hain, aapke phone par direct approval notification aata hai, aur MPIN enter karte hi license khud-ba-khud auto-unlock ho jata hai. Tamam payment official software vendor Tasaddaq Hussain (03417027610) ke verified account me jati hai.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark-950 border-t border-slate-800 py-12 text-xs text-slate-400">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">
+                        <i class="fa-solid fa-file-invoice"></i>
+                    </div>
+                    <div>
+                        <div class="font-bold text-white">SmartTax FBR Digital Invoicer Pro</div>
+                        <div class="text-[11px] text-slate-500">Official Software Vendor: <strong>Tasaddaq Hussain</strong> (03417027610)</div>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap items-center justify-center gap-6 text-slate-400 font-medium">
+                    <a href="#features" class="hover:text-emerald-400">Features</a>
+                    <a href="#download" class="hover:text-emerald-400">Download</a>
+                    <a href="#pricing" class="hover:text-emerald-400">Pricing</a>
+                    <a href="/admin" class="text-emerald-400 hover:text-emerald-300 font-bold"><i class="fa-solid fa-lock mr-1"></i> Vendor Admin Portal</a>
+                </div>
+
+                <div class="text-center md:text-right text-[11px] text-slate-500">
+                    &copy; 2026 SmartTax FBR Pro. All rights reserved.<br>
+                    Fully Compliant with FBR Section 23 & STGO 01/2024.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Client JavaScript -->
+    <script>
+        let currentOtpSent = false;
+
+        async function sendWhatsAppOtp() {
+            const mobile = document.getElementById("regMobile").value.trim().replace(/[-\s]/g, "");
+            const notice = document.getElementById("otpNotice");
+            const btn = document.getElementById("btnSendOtp");
+
+            if (!mobile || mobile.length < 10) {
+                alert("Please enter a valid 11-digit mobile number (e.g. 03417027610).");
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Sending...`;
+
+            try {
+                const res = await fetch("/api/otp/send", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ mobile_number: mobile, channel: "WhatsApp" })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    notice.classList.remove("hidden");
+                    notice.innerHTML = `<i class="fa-brands fa-whatsapp text-emerald-400 mr-1.5"></i> ${data.message} ${data.simulated_otp ? '<strong>[OTP: ' + data.simulated_otp + ']</strong>' : ''}`;
+                    document.getElementById("otpInputGroup").classList.remove("hidden");
+                    if (data.simulated_otp) {
+                        document.getElementById("regOtpCode").value = data.simulated_otp;
+                    }
+                    currentOtpSent = true;
+                    btn.innerHTML = `<i class="fa-solid fa-check"></i> Sent!`;
+                } else {
+                    alert("Error sending OTP: " + data.message);
+                    btn.disabled = false;
+                    btn.innerHTML = `<i class="fa-brands fa-whatsapp"></i> Send OTP`;
+                }
+            } catch (err) {
+                alert("Server connection error: " + err.message);
+                btn.disabled = false;
+                btn.innerHTML = `<i class="fa-brands fa-whatsapp"></i> Send OTP`;
+            }
+        }
+
+        async function handleOnlineRegister(e) {
+            e.preventDefault();
+            const shopName = document.getElementById("regShopName").value.trim();
+            const city = document.getElementById("regCity").value.trim();
+            const mobile = document.getElementById("regMobile").value.trim().replace(/[-\s]/g, "");
+            const pin = document.getElementById("regPin").value.trim();
+            const otpCode = document.getElementById("regOtpCode").value.trim();
+            const statusDiv = document.getElementById("regStatus");
+            const submitBtn = document.getElementById("btnSubmitReg");
+
+            if (pin.length !== 4) {
+                alert("Master PIN must be exactly 4 digits.");
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Registering Shop...`;
+
+            try {
+                // If OTP was requested, verify it first
+                if (currentOtpSent && otpCode) {
+                    const otpRes = await fetch("/api/otp/verify", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ mobile_number: mobile, otp_code: otpCode })
+                    });
+                    const otpData = await otpRes.json();
+                    if (!otpData.success) {
+                        statusDiv.className = "text-center text-xs p-3 rounded-xl bg-red-500/20 text-red-300 border border-red-500/30";
+                        statusDiv.innerHTML = `<i class="fa-solid fa-circle-exclamation mr-1.5"></i> ${otpData.message}`;
+                        statusDiv.classList.remove("hidden");
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = `<i class="fa-solid fa-user-plus mr-1.5"></i> Register Shop & Unlock 30-Day Free Trial`;
+                        return;
+                    }
+                }
+
+                // Register account
+                const regRes = await fetch("/api/account/register", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        mobile_number: mobile,
+                        pin: pin,
+                        business_name: shopName,
+                        city_province: city
+                    })
+                });
+                const regData = await regRes.json();
+
+                if (regData.success) {
+                    statusDiv.className = "text-center text-xs p-4 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
+                    statusDiv.innerHTML = `
+                        <div class="font-bold text-sm text-emerald-400 mb-1">🎉 Registration Successful! 30-Day Free Trial Active!</div>
+                        <div>Your account has been created for <strong>${shopName}</strong>.</div>
+                        <div class="mt-2 text-slate-300">Login ID: <strong class="text-white">${mobile}</strong> | PIN: <strong class="text-white">${pin}</strong></div>
+                        <div class="mt-3">
+                            <a href="/download/setup" class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500 text-slate-950 font-black rounded-lg hover:bg-emerald-400 transition">
+                                <i class="fa-solid fa-download"></i> Download Software Now
+                            </a>
+                        </div>
+                    `;
+                    statusDiv.classList.remove("hidden");
+                    submitBtn.classList.add("hidden");
+                } else {
+                    statusDiv.className = "text-center text-xs p-3 rounded-xl bg-red-500/20 text-red-300 border border-red-500/30";
+                    statusDiv.innerHTML = `<i class="fa-solid fa-circle-exclamation mr-1.5"></i> ${regData.message}`;
+                    statusDiv.classList.remove("hidden");
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = `<i class="fa-solid fa-user-plus mr-1.5"></i> Register Shop & Unlock 30-Day Free Trial`;
+                }
+            } catch (err) {
+                statusDiv.className = "text-center text-xs p-3 rounded-xl bg-red-500/20 text-red-300 border border-red-500/30";
+                statusDiv.innerHTML = `Error: ${err.message}`;
+                statusDiv.classList.remove("hidden");
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = `<i class="fa-solid fa-user-plus mr-1.5"></i> Register Shop & Unlock 30-Day Free Trial`;
+            }
+        }
+    </script>
+</body>
+</html>
