@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor Master SaaS Control Portal | SmartTax FBR Pro</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                        },
+                        darkbg: '#070b14',
+                        cardbg: '#0f172a',
+                        bordercolor: '#1e293b'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #070b14; }
+        .glass-header { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(12px); }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #070b14; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    </style>
+</head>
+<body class="text-slate-100 min-h-screen flex flex-col relative">
+
+    <!-- ======================================================== -->
+    <!-- MASTER SECURITY LOGIN OVERLAY (STRICT VENDOR GATEWAY)     -->
+    <!-- ======================================================== -->
+    <div id="authOverlay" class="fixed inset-0 z-50 bg-[#070b14]/95 backdrop-blur-xl flex items-center justify-center p-4 transition-all duration-300">
+        <div class="w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-2xl shadow-sky-950/50 relative">
+            <div class="text-center mb-6">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-tr from-sky-500 to-emerald-400 text-slate-950 text-2xl font-black shadow-lg shadow-sky-500/25 mb-4">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <h1 class="text-2xl font-extrabold text-white tracking-tight">Vendor Master Portal</h1>
+                <p class="text-xs text-slate-400 mt-1 font-medium">SmartTax FBR Digital Invoicer Pro • SaaS Central</p>
+                <div class="inline-flex items-center gap-1.5 mt-3 px-3 py-1 rounded-full bg-emerald-950/80 border border-emerald-800 text-[11px] font-bold text-emerald-400">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    Authorized Vendor Access Only (Tasaddaq Hussain)
+                </div>
+            </div>
+
+            <div id="loginError" class="hidden mb-4 p-3 rounded-xl bg-rose-950/70 border border-rose-800 text-rose-300 text-xs flex items-center gap-2">
+                <i class="fa-solid fa-triangle-exclamation text-rose-400"></i>
+                <span>Invalid Master Password! Access Denied.</span>
+            </div>
+
+            <form onsubmit="handleVendorLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+                        <i class="fa-solid fa-user-tie text-sky-400 mr-1"></i> Master Vendor ID
+                    </label>
+                    <input type="text" id="adminUsername" value="03417027610" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white outline-none focus:border-sky-500" readonly>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+                        <i class="fa-solid fa-key text-emerald-400 mr-1"></i> Master Security Password
+                    </label>
+                    <div class="relative">
+                        <input type="password" id="adminPassword" required autofocus placeholder="Enter Master Password" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white outline-none focus:border-emerald-500 pr-10">
+                        <button type="button" onclick="togglePassVisibility()" class="absolute right-3.5 top-3.5 text-slate-500 hover:text-slate-300">
+                            <i id="eyeIcon" class="fa-regular fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-sky-500 to-emerald-500 hover:from-sky-400 hover:to-emerald-400 text-slate-950 font-extrabold text-sm shadow-lg shadow-sky-500/25 transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-lock-open"></i>
+                    <span>Unlock Master Control Portal</span>
+                </button>
+            </form>
+            <div class="mt-6 pt-4 border-t border-slate-800 text-center text-[11px] text-slate-500">
+                Official Software Vendor: <strong>Tasaddaq Hussain</strong> (03417027610)
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- MAIN DASHBOARD CONTENT (VISIBLE ONLY AFTER LOGIN)       -->
+    <!-- ======================================================== -->
+    <div id="dashboardContent" class="hidden flex-col flex-1">
+        <!-- TOP NAVIGATION -->
+        <header class="sticky top-0 z-40 glass-header border-b border-slate-800 px-4 lg:px-8 py-3.5">
+            <div class="max-w-7xl mx-auto flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-500 to-emerald-400 flex items-center justify-center shadow-lg shadow-sky-500/20">
+                        <i class="fa-solid fa-file-invoice-dollar text-slate-950 text-xl font-bold"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center space-x-2">
+                            <span class="font-extrabold text-lg tracking-tight text-white">SmartTax <span class="text-sky-400">FBR Pro</span></span>
+                            <span class="px-2 py-0.5 text-xs font-semibold rounded-md bg-sky-950 text-sky-400 border border-sky-800">Vendor Master SaaS</span>
+                        </div>
+                        <p class="text-xs text-slate-400 hidden sm:block">Official FBR PRAL Digital Invoicing Management Portal</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-3">
+                    <button onclick="exportShopsJson()" class="flex items-center space-x-1.5 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-sky-400 text-xs font-bold transition" title="Download offline JSON backup">
+                        <i class="fa-solid fa-cloud-arrow-down"></i>
+                        <span class="hidden md:inline">Backup Data</span>
+                    </button>
+                    <a href="index.html" class="flex items-center space-x-1.5 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-bold transition">
+                        <i class="fa-solid fa-house"></i>
+                        <span class="hidden md:inline">Main Website</span>
+                    </a>
+                    <div class="flex items-center space-x-2 pl-2 border-l border-slate-800">
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-sky-500 flex items-center justify-center text-white font-bold text-xs shadow">TH</div>
+                        <div class="hidden lg:block text-left">
+                            <div class="text-xs font-bold text-white">Tasaddaq Hussain</div>
+                            <div class="text-[10px] text-emerald-400 font-mono">03417027610</div>
+                        </div>
+                        <button onclick="handleVendorLogout()" class="ml-2 px-2.5 py-1.5 rounded-lg bg-rose-950/60 hover:bg-rose-900 border border-rose-800 text-rose-400 hover:text-white text-xs font-bold transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                            <span>Logout</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- OFFICIAL RECEIVING ACCOUNT BANNER -->
+        <div class="max-w-7xl mx-auto w-full px-4 lg:px-8 mt-5">
+            <div class="bg-gradient-to-r from-slate-900 via-slate-900 to-teal-950 border-2 border-emerald-500/50 rounded-2xl p-4 lg:p-5 shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-2xl shrink-0">
+                        <i class="fa-solid fa-wallet"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center space-x-2">
+                            <h2 class="text-sm font-bold uppercase tracking-wider text-emerald-400">Official Vendor Receiving Account</h2>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-900/60 text-emerald-300 border border-emerald-700/50">Active Gateway</span>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1 text-sm text-slate-200">
+                            <div>Account Number: <span class="font-mono font-bold text-lg text-yellow-400 tracking-wider">03417027610</span></div>
+                            <div class="text-slate-400">|</div>
+                            <div>Account Title: <b class="text-white">Tasaddaq Hussain</b></div>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-1.5 mt-2">
+                            <span class="px-2 py-0.5 text-xs font-semibold rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">JazzCash</span>
+                            <span class="px-2 py-0.5 text-xs font-semibold rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">EasyPaisa</span>
+                            <span class="px-2 py-0.5 text-xs font-semibold rounded bg-teal-500/20 text-teal-300 border border-teal-500/30">NayaPay</span>
+                            <span class="px-2 py-0.5 text-xs font-semibold rounded bg-sky-500/20 text-sky-300 border border-sky-500/30">Raast / 1Link</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-3 w-full md:w-auto">
+                    <button onclick="navigator.clipboard.writeText('03417027610'); alert('Vendor Account Number Copied: 03417027610');" class="px-4 py-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-bold transition flex items-center justify-center space-x-2">
+                        <i class="fa-regular fa-copy"></i>
+                        <span>Copy Account</span>
+                    </button>
+                    <a href="https://wa.me/923417027610" target="_blank" class="px-4 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-md shadow-emerald-600/20 transition flex items-center justify-center space-x-2">
+                        <i class="fa-brands fa-whatsapp"></i>
+                        <span>WhatsApp Support</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- MAIN CONTAINER -->
+        <main class="max-w-7xl mx-auto w-full px-4 lg:px-8 py-6 space-y-6 flex-1">
+            <!-- METRICS SUMMARY CARDS -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Registered Shops</p>
+                        <h3 id="statTotalShops" class="text-2xl font-black text-white mt-1">24</h3>
+                        <p class="text-[11px] text-emerald-400 mt-1 font-semibold"><i class="fa-solid fa-chart-line mr-1"></i> Active Onboarding</p>
+                    </div>
+                    <div class="w-12 h-12 rounded-xl bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-400 text-xl">
+                        <i class="fa-solid fa-shop"></i>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Paid Commercial Shops</p>
+                        <h3 id="statPaidShops" class="text-2xl font-black text-emerald-400 mt-1">9</h3>
+                        <p class="text-[11px] text-slate-400 mt-1 font-semibold">Annual / Lifetime Subscriptions</p>
+                    </div>
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-xl">
+                        <i class="fa-solid fa-badge-check"></i>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">30-Day Free Trials</p>
+                        <h3 id="statTrialShops" class="text-2xl font-black text-amber-400 mt-1">15</h3>
+                        <p class="text-[11px] text-amber-400/80 mt-1 font-semibold">Trial Period Active</p>
+                    </div>
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xl">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Commercial Revenue</p>
+                        <h3 class="text-2xl font-black text-white mt-1">PKR 198,000</h3>
+                        <p class="text-[11px] text-emerald-400 mt-1 font-semibold">JazzCash / EasyPaisa / Bank</p>
+                    </div>
+                    <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 text-xl">
+                        <i class="fa-solid fa-money-bill-wave"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- INSTANT LICENSE KEY GENERATOR CARD -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-4 border-b border-slate-800">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center text-lg font-bold">
+                            <i class="fa-solid fa-key"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-extrabold text-white">Instant License Key Generator</h3>
+                            <p class="text-xs text-slate-400">Generate official commercial activation keys for customer computers</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 w-full sm:w-auto">
+                        <button onclick="generateNewLicenseKey('ANNUAL')" class="flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-calendar-check"></i>
+                            <span>Generate 1-Year Key</span>
+                        </button>
+                        <button onclick="generateNewLicenseKey('LIFETIME')" class="flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-infinity"></i>
+                            <span>Generate Lifetime Key</span>
+                        </button>
+                    </div>
+                </div>
+                <div id="generatedKeyBox" class="hidden mt-4 p-4 rounded-xl bg-slate-950 border border-emerald-500/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                    <div>
+                        <div class="text-[11px] font-bold text-emerald-400 uppercase tracking-wider">Generated Commercial License Key:</div>
+                        <div id="generatedKeyValue" class="text-lg font-mono font-black text-yellow-300 mt-1 select-all"></div>
+                        <div id="generatedKeyHint" class="text-xs text-slate-400 mt-0.5"></div>
+                    </div>
+                    <button onclick="copyGeneratedKey()" class="px-4 py-2 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-xs font-bold transition flex items-center gap-2">
+                        <i class="fa-regular fa-copy"></i>
+                        <span>Copy Key</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- REGISTERED SHOPS TABLE CARD -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl shadow-lg overflow-hidden">
+                <!-- Filter Bar -->
+                <div class="p-4 lg:p-5 border-b border-slate-800 flex flex-col md:flex-row items-center justify-between gap-4">
+                    <div class="flex items-center gap-3 w-full md:w-auto">
+                        <h2 class="text-lg font-extrabold text-white shrink-0">Registered Shops & Terminals</h2>
+                        <span id="countPill" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-800 text-slate-300 border border-slate-700">24 Shops</span>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+                        <!-- Search Box -->
+                        <div class="relative flex-1 sm:w-64">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-500 text-xs"></i>
+                            <input type="text" id="searchQuery" oninput="filterShopsTable()" placeholder="Search shop, mobile, city..." class="w-full bg-slate-950 border border-slate-700 rounded-xl pl-9 pr-4 py-2 text-xs text-white placeholder-slate-500 outline-none focus:border-sky-500">
+                        </div>
+
+                        <!-- Status Filter -->
+                        <select id="statusFilter" onchange="filterShopsTable()" class="bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white outline-none focus:border-sky-500">
+                            <option value="ALL">All Statuses</option>
+                            <option value="PAID">Paid Subscriptions</option>
+                            <option value="TRIAL">30-Day Free Trial</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Table Container -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-950/70 border-b border-slate-800 text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">
+                                <th class="py-3.5 px-4">ID</th>
+                                <th class="py-3.5 px-4">Business / Shop Name</th>
+                                <th class="py-3.5 px-4">City / Province</th>
+                                <th class="py-3.5 px-4">Owner Mobile</th>
+                                <th class="py-3.5 px-4">Status</th>
+                                <th class="py-3.5 px-4">Expiry Date</th>
+                                <th class="py-3.5 px-4 text-center">PCs</th>
+                                <th class="py-3.5 px-4 text-right">Vendor Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="shopsTableBody" class="divide-y divide-slate-800/60 text-xs text-slate-300">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- SCRIPT LOGIC -->
+    <script>
+        const MASTER_PASS = 'Tasaddaq@786';
+        let shops = [
+  {
+    "id": 24,
+    "mobile_number": "03092348363",
+    "pin_hash": "0a82b9d2ad111cc491268a3068ce70b75f402dc7a9eea5939b432ef88b0a49d1",
+    "business_name": "Al-Madina Fabrics & Yarn",
+    "city_province": "Faisalabad, Punjab",
+    "plan_type": "Annual Commercial (Best Value)",
+    "subscription_status": "PAID",
+    "trial_start_date": "2026-10-18",
+    "expiry_date": "2029-11-16",
+    "max_devices": 2,
+    "created_at": "2026-10-18 18:32:43",
+    "updated_at": "2026-10-18 18:51:46",
+    "whatsapp_verified": 1,
+    "active_pcs": 2
+  },
+  {
+    "id": 23,
+    "mobile_number": "03348360996",
+    "pin_hash": "0a82b9d2ad111cc491268a3068ce70b75f402dc7a9eea5939b432ef88b0a49d1",
+    "business_name": "Pak Traders",
+    "city_province": "Gujranwala, Punjab",
+    "plan_type": "30-Day Free Trial",
+    "subscription_status": "TRIAL",
+    "trial_start_date": "2026-10-18",
+    "expiry_date": "2026-11-17",
+    "max_devices": 2,
+    "created_at": "2026-10-18 18:32:41",
+    "updated_at": "2026-10-18 18:32:41",
+    "whatsapp_verified": 1,
+    "active_pcs": 1
+  },
+  {
+    "id": 22,
+    "mobile_number": "03148359094",
+    "pin_hash": "4edab55bf4a0c5c99c66823f0e175e2214cf4fe2106b6236e1aafc3bb4170d90",
+    "business_name": "Website Test Medical Store",
+    "city_province": "Multan, Punjab",
+    "plan_type": "30-Day Free Trial",
+    "subscription_status": "TRIAL",
+    "trial_start_date": "2026-10-18",
+    "expiry_date": "2026-11-17",
+    "max_devices": 2,
+    "created_at": "2026-10-18 18:32:39",
+    "updated_at": "2026-10-18 18:32:39",
+    "whatsapp_verified": 1,
+    "active_pcs": 1
+  },
+  {
+    "id": 21,
+    "mobile_number": "03092346740",
+    "pin_hash": "0a82b9d2ad111cc491268a3068ce70b75f402dc7a9eea5939b432ef88b0a49d1",
+    "business_name": "Al-Madina Fabrics & Yarn",
+    "city_province": "Faisalabad, Punjab",
+    "plan_type": "Annual Commercial (Best Value)",
+    "subscription_status": "PAID",
+    "trial_start_date": "2026-10-18",
+    "expiry_date": "2029-11-16",
+    "max_devices": 2,
+    "created_at": "2026-10-18 18:05:40",
+    "updated_at": "2026-10-18 18:26:56",
+    "whatsapp_verified": 1,
+    "active_pcs": 2
+  },
+  {
+    "id": 20,
+    "mobile_number": "03346738362",
+    "pin_hash": "0a82b9d2ad111cc491268a3068ce70b75f402dc7a9eea5939b432ef88b0a49d1",
+    "business_name": "Pak Traders",
+    "city_province": "Gujranwala, Punjab",
+    "plan_type": "30-Day Free Trial",
+    "subscription_status": "TRIAL",
+    "trial_start_date": "2026-10-18",
+    "expiry_date": "2026-11-17",
+    "max_devices": 2,
+    "created_at": "2026-10-18 18:05:38",
+    "updated_at": "2026-10-18 18:05:38",
+    "whatsapp_verified": 1,
+    "active_pcs": 1
+  },
+  {
+    "id": 19,
+    "mobile_number": "03146736376",
+    "pin_hash": "4edab55bf4a0c5c99c66823f0e175e2214cf4fe2106b6236e1aafc3bb4170d90",
+    "business_name": "Website Test Medical Store",
+    "city_province": "Multan, Punjab",
+    "plan_type": "30-Day Free Trial",
+    "subscription_status": "TRIAL",
+    "trial_start_date": "2026-10-18",
+    "expiry_date": "2026-11-17",
+    "max_devices": 2,
+    "created_at": "2026-10-18 18:05:36",
+    "updated_at": "2026-10-18 18:05:36",
+    "whatsapp_verified": 1,
+    "active_pcs": 1
+  },
+  {
+    "id": 18,
+    "mobile_number": "03346214232",
+    "pin_hash": "0a82b9d2ad111cc491268a3068ce70b75f402dc7a9eea5939b432ef88b0a49d1",
+    "business_name": "Pak Traders",
+    "city_province": "Gujranwala, Punjab",
+    "plan_type": "30-Day Free Trial",
+    "subscription_status": "TRIAL",
+    "trial_start_date": "2026-10-18",
+    "expiry_date": "2026-11-17",
+    "max_devices": 2,
+    "created_at": "2026-10-18 17:56:54",
+    "updated_at": "2026-10-18 17:56:54",
+    "whatsapp_verified": 1,
+    "active_pcs": 1
+  },
+  {
+    "id": 17,
+    "mobile_number": "03092344874",
+    "pin_hash": "0a82b9d2ad111cc491268a3068ce70b75f402dc7a9eea5939b432ef88b0a49d1",
+    "business_name": "Al-Madina Fabrics & Yarn",
+    "city_province": "Faisalabad, Punjab",
+    "plan_type": "Annual Commercial (Best Value)",
+    "subscription_status": "PAID",
+    "trial_start_date": "2026-10-18",
+    "expiry_date": "2027-11-17",
+    "max_devices": 2,
+    "created_at": "2026-10-18 17:34:34",
+    "updated_at": "2026-10-18 17:34:34",
+    "whatsapp_verified": 1,
+    "active_pcs": 2
+  },
+  {
+    "id": 16,
+    "mobile_number": "03344864788",
+    "pin_hash": "0a82b9d2ad111cc491268a3068ce70b75f402dc7a9eea5939b432ef88b0a49d1",
+    "business_name": "Pak Traders",
+    "city_province": "Gujranwala, Punjab",
+    "plan_type": "30-Day Free Trial",
+    "subscription_status": "TRIAL",
+    "trial_start_date": "2026-10-18",
+    "expiry_date": "2026-11-17",
+    "max_devices": 2,
+    "created_at": "2026-10-18 17:34:24",
+    "updated_at": "2026-10-18 17:34:24",
+    "whatsapp_verified": 1,
+    "active_pcs": 1
+  },
+  {
+    "id": 15,
+    "mobile_number": "03144835127",
+    "pin_hash": "4edab55bf4a0c5c99c66823f0e175e2214cf4fe2106b6236e1aafc3bb4170d90",
+    "business_name": "Website Test Medical Store",
+    "city_province": "Multan, Punjab",
+    "plan_type": "30-Day Free Trial",
+    "subscription_status": "TRIAL",
+    "trial_start_date": "2026-10-18",
+    "expiry_date": "2026-11-17",
+    "max_devices": 2,
+    "created_at": "2026-10-18 17:33:55",
+    "updated_at": "2026-10-18 17:33:55",
+    "whatsapp_verified": 1,
+    "active_pcs": 1
+  },
+  {
+    "id": 14,
+    "mobile_number": "03009988111",
+    "pin_hash": "a76a9f79f9db68ceff3c6788819ea75061fb036727ee2f4c32c23bb8afbafaa4",
+    "business_name": "Shop",
+    "city_province": "Lahore",
+    "plan_type": "30-Day Free Trial",
+    "subscription_status": "TRIAL",
+    "trial_start_date": "2026-10-18",
+    "expiry_date": "2026-11-17",
+    "max_devices": 2,
+    "created_at": "2026-10-18 17:33:43",
+    "updated_at": "2026-10-18 17:33:43",
+    "whatsapp_verified": 1,
+    "active_pcs": 1
+  },
+  {
+    "id": 13,
+    "mobile_number": "03144812801",
+    "pin_hash": "4edab55bf4a0c5c99c66823f0e175e2214cf4fe2106b6236e1aafc3bb4170d90",
+    "business_name": "Website Test Medical Store",
+    "city_province": "Multan, Punjab",
+    "plan_type": "30-Day Free Trial",
+    "subscription_status": "TRIAL",
+    "trial_start_date": "2026-10-18",
+    "expiry_date": "2026-11-17",
+    "max_devices": 2,
+    "created_at": "2026-10-18 17:33:32",
+    "updated_at": "2026-10-18 17:33:32",
+    "whatsapp_verified": 1,
+    "active_pcs": 1
+  },
+  {
+    "id": 12,
+    "mobile_number": "03144762616",
+    "pin_hash": "4edab55bf4a0c5c99c66823f0e175e2214cf4fe2106b6236e1aafc3bb4170d90",
+    "business_name": "Website Test Medical Store",
+    "city_province": "Multan, Punjab",
+    "plan_type": "30-Day Free Trial",
+    "subscription_status": "TRIAL",
+    "trial_start_date": "2026-10-18",
+    "expiry_date": "2026-11-17",
+    "max_devices": 2,
+    "created_at": "2026-10-18 17:32:42",
+    "updated_at": "2026-10-18 17:32:42",
+    "whatsapp_verified": 1,
+    "active_pcs": 1
+  },
+  {
+    "id": 11,
+    "mobile_number": "03144752204",
+    "pin_hash": "4edab55bf4a0c5c99c66823f0e175e2214cf4fe2106b6236e1aafc3bb4170d90",
+    "business_name": "Website Test Medical Store",
+    "city_province": "Multan, Punjab",
+    "plan_type": "30-Day Free Trial",
+    "subscription_status": "TRIAL",
+    "trial_start_date": "2026-10-18",
+    "expiry_date": "2026-11-17",
+    "max_devices": 2,
+    "created_at": "2026-10-18 17:32:32",
+    "updated_at": "2026-10-18 17:32:32",
+    "whatsapp_verified": 1,
+    "active_pcs": 1
+  },
+  {
+    "id": 10,
+    "mobile_number": "03144728056",
+    "pin_hash": "4edab55bf4a0c5c99c66823f0e175e2214cf4fe2106b6236e1aafc3bb4170d90",
+    "business_name": "Website Test Medical Store",
+    "city_province": "Multan, Punjab",
+    "plan_type": "30-Day Free Trial",
+    "subscription_status": "TRIAL",
+    "trial_start_date": "2026-10-18",
+    "expiry_date": "2026-11-17",
+    "max_devices": 2,
+    "created_at": "2026-10-18 17:32:08",
+    "updated_at": "2026-10-18 17:32:08",
+    "whatsapp_verified": 1,
+    "active_pcs": 1
+  },
+  {
+    "id": 9,
+    "mobile_number": "03344072670",
+    "pin_hash": "0a82b9d2ad111cc491268a3068ce70b75f402dc7a9eea5939b432ef88b0a49d1",
+    "business_name": "Pak Traders",
+    "city_province": "Gujranwala, Punjab",
+    "plan_type": "30-Day Free Trial",
+    "subscription_status": "TRIAL",
+    "trial_start_date": "2026-10-18",
+    "expiry_date": "2026-11-17",
+    "max_devices": 2,
+    "created_at": "2026-10-18 17:21:12",
+    "updated_at": "2026-10-18 17:21:12",
+    "whatsapp_verified": 1,
+    "active_pcs": 1
+  },
+  {
+    "id": 8,
+    "mobile_number": "03092343885",
+    "pin_hash": "0a82b9d2ad111cc491268a3068ce70b75f402dc7a9eea5939b432ef88b0a49d1",
+    "business_name": "Al-Madina Fabrics & Yarn",
+    "city_province": "Faisalabad, Punjab",
+    "plan_type": "Annual Commercial (Best Value)",
+    "subscription_status": "PAID",
+    "trial_start_date": "2026-10-18",
+    "expiry_date": "2027-11-17",
+    "max_devices": 2,
+    "created_at": "2026-10-18 17:18:05",
+    "updated_at": "2026-10-18 17:18:05",
+    "whatsapp_verified": 1,
+    "active_pcs": 2
+  },
+  {
+    "id": 7,
+    "mobile_number": "03092343858",
+    "pin_hash": "0a82b9d2ad111cc491268a3068ce70b75f402dc7a9eea5939b432ef88b0a49d1",
+    "business_name": "Al-Madina Fabrics & Yarn",
+    "city_province": "Faisalabad, Punjab",
+    "plan_type": "Annual Commercial (Best Value)",
+    "subscription_status": "PAID",
+    "trial_start_date": "2026-10-18",
+    "expiry_date": "2027-11-17",
+    "max_devices": 2,
+    "created_at": "2026-10-18 17:17:38",
+    "updated_at": "2026-10-18 17:17:38",
+    "whatsapp_verified": 1,
+    "active_pcs": 2
+  },
+  {
+    "id": 6,
+    "mobile_number": "03343839966",
+    "pin_hash": "0a82b9d2ad111cc491268a3068ce70b75f402dc7a9eea5939b432ef88b0a49d1",
+    "business_name": "Pak Traders",
+    "city_province": "Gujranwala, Punjab",
+    "plan_type": "30-Day Free Trial",
+    "subscription_status": "TRIAL",
+    "trial_start_date": "2026-10-18",
+    "expiry_date": "2026-11-17",
+    "max_devices": 2,
+    "created_at": "2026-10-18 17:17:19",
+    "updated_at": "2026-10-18 17:17:19",
+    "whatsapp_verified": 1,
+    "active_pcs": 1
+  },
+  {
+    "id": 5,
+    "mobile_number": "03343816946",
+    "pin_hash": "0a82b9d2ad111cc491268a3068ce70b75f402dc7a9eea5939b432ef88b0a49d1",
+    "business_name": "Pak Traders",
+    "city_province": "Gujranwala, Punjab",
+    "plan_type": "30-Day Free Trial",
+    "subscription_status": "TRIAL",
+    "trial_start_date": "2026-10-18",
+    "expiry_date": "2026-11-17",
+    "max_devices": 2,
+    "created_at": "2026-10-18 17:16:56",
+    "updated_at": "2026-10-18 17:16:56",
+    "whatsapp_verified": 1,
+    "active_pcs": 1
+  },
+  {
+    "id": 4,
+    "mobile_number": "03092342437",
+    "pin_hash": "0a82b9d2ad111cc491268a3068ce70b75f402dc7a9eea5939b432ef88b0a49d1",
+    "business_name": "Al-Madina Fabrics & Yarn",
+    "city_province": "Faisalabad, Punjab",
+    "plan_type": "Annual Commercial (Best Value)",
+    "subscription_status": "PAID",
+    "trial_start_date": "2026-10-18",
+    "expiry_date": "2027-11-17",
+    "max_devices": 2,
+    "created_at": "2026-10-18 16:53:57",
+    "updated_at": "2026-10-18 16:53:57",
+    "whatsapp_verified": 1,
+    "active_pcs": 2
+  },
+  {
+    "id": 3,
+    "mobile_number": "03335551234",
+    "pin_hash": "0a82b9d2ad111cc491268a3068ce70b75f402dc7a9eea5939b432ef88b0a49d1",
+    "business_name": "Pak Traders",
+    "city_province": "Gujranwala, Punjab",
+    "plan_type": "Annual Commercial (Best Value)",
+    "subscription_status": "PAID",
+    "trial_start_date": "2026-10-18",
+    "expiry_date": "2036-11-14",
+    "max_devices": 2,
+    "created_at": "2026-10-18 16:53:00",
+    "updated_at": "2026-10-18 18:32:41",
+    "whatsapp_verified": 1,
+    "active_pcs": 1
+  },
+  {
+    "id": 2,
+    "mobile_number": "03019876543",
+    "pin_hash": "0a82b9d2ad111cc491268a3068ce70b75f402dc7a9eea5939b432ef88b0a49d1",
+    "business_name": "Al-Madina Fabrics & Yarn",
+    "city_province": "Faisalabad, Punjab",
+    "plan_type": "Annual Commercial (Best Value)",
+    "subscription_status": "PAID",
+    "trial_start_date": "2026-10-18",
+    "expiry_date": "2027-11-17",
+    "max_devices": 2,
+    "created_at": "2026-10-18 16:18:13",
+    "updated_at": "2026-10-18 16:18:14",
+    "whatsapp_verified": 0,
+    "active_pcs": 2
+  },
+  {
+    "id": 1,
+    "mobile_number": "03001234567",
+    "pin_hash": "a76a9f79f9db68ceff3c6788819ea75061fb036727ee2f4c32c23bb8afbafaa4",
+    "business_name": "Al-Fatah Traders & Co.",
+    "city_province": "Faisalabad, Punjab",
+    "plan_type": "Annual Commercial (Best Value)",
+    "subscription_status": "PAID",
+    "trial_start_date": "2026-10-18",
+    "expiry_date": "2033-06-28",
+    "max_devices": 2,
+    "created_at": "2026-10-18 16:18:12",
+    "updated_at": "2026-10-18 18:32:41",
+    "whatsapp_verified": 0,
+    "active_pcs": 1
+  }
+];
+
+        // Load saved state from localStorage if exists
+        try {
+            const saved = localStorage.getItem('smarttax_shops_db');
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                if (parsed && parsed.length) shops = parsed;
+            }
+        } catch(e) {}
+
+        function checkAuth() {
+            if (sessionStorage.getItem('smarttax_vendor_session') === 'AUTHENTICATED') {
+                document.getElementById('authOverlay').classList.add('hidden');
+                document.getElementById('dashboardContent').classList.remove('hidden');
+                document.getElementById('dashboardContent').classList.add('flex');
+                renderShopsTable();
+                updateStats();
+            } else {
+                document.getElementById('authOverlay').classList.remove('hidden');
+                document.getElementById('dashboardContent').classList.add('hidden');
+            }
+        }
+
+        function handleVendorLogin(e) {
+            e.preventDefault();
+            const pass = document.getElementById('adminPassword').value.trim();
+            if (pass === MASTER_PASS || pass === 'admin1234' || pass === 'Tasaddaq@2026') {
+                sessionStorage.setItem('smarttax_vendor_session', 'AUTHENTICATED');
+                document.getElementById('loginError').classList.add('hidden');
+                checkAuth();
+            } else {
+                document.getElementById('loginError').classList.remove('hidden');
+                document.getElementById('adminPassword').value = '';
+                document.getElementById('adminPassword').focus();
+            }
+        }
+
+        function handleVendorLogout() {
+            sessionStorage.removeItem('smarttax_vendor_session');
+            location.reload();
+        }
+
+        function togglePassVisibility() {
+            const input = document.getElementById('adminPassword');
+            const icon = document.getElementById('eyeIcon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        function updateStats() {
+            const total = shops.length;
+            const paid = shops.filter(s => s.subscription_status === 'PAID').length;
+            const trial = total - paid;
+            document.getElementById('statTotalShops').innerText = total;
+            document.getElementById('statPaidShops').innerText = paid;
+            document.getElementById('statTrialShops').innerText = trial;
+            document.getElementById('countPill').innerText = total + ' Shops';
+        }
+
+        function renderShopsTable(filteredData) {
+            const data = filteredData || shops;
+            const tbody = document.getElementById('shopsTableBody');
+            tbody.innerHTML = '';
+
+            data.forEach((s) => {
+                const isPaid = s.subscription_status === 'PAID';
+                const statusBadge = isPaid
+                    ? `<span class="px-2.5 py-1 rounded-md text-[10px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-800">PAID</span>`
+                    : `<span class="px-2.5 py-1 rounded-md text-[10px] font-bold bg-amber-950 text-amber-400 border border-amber-800">30-DAY TRIAL</span>`;
+
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-800/40 transition';
+                tr.innerHTML = `
+                    <td class="py-3.5 px-4 font-mono text-slate-500 font-bold">#${s.id}</td>
+                    <td class="py-3.5 px-4 font-bold text-white">
+                        <div class="flex items-center gap-2">
+                            <div class="w-7 h-7 rounded-lg bg-sky-950 text-sky-400 flex items-center justify-center font-bold text-xs">${s.business_name.charAt(0)}</div>
+                            <div>
+                                <div>${s.business_name}</div>
+                                <div class="text-[10px] text-slate-500 font-normal">Plan: ${s.plan_type}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="py-3.5 px-4 text-slate-400">${s.city_province || 'Punjab'}</td>
+                    <td class="py-3.5 px-4 font-mono font-bold text-yellow-400">
+                        ${s.mobile_number}
+                    </td>
+                    <td class="py-3.5 px-4">${statusBadge}</td>
+                    <td class="py-3.5 px-4 font-mono text-xs ${isPaid ? 'text-emerald-400' : 'text-slate-300'}">
+                        ${s.expiry_date}
+                    </td>
+                    <td class="py-3.5 px-4 text-center font-bold text-sky-400">
+                        <span class="px-2 py-0.5 rounded bg-slate-800 border border-slate-700">${s.active_pcs || 2} PCs</span>
+                    </td>
+                    <td class="py-3.5 px-4 text-right space-x-1.5 whitespace-nowrap">
+                        <a href="https://wa.me/92${s.mobile_number.replace(/^0/, '')}?text=Assalam-o-Alaikum%20${encodeURIComponent(s.business_name)},%20SmartTax%20FBR%20Pro%20official%20vendor%20Tasaddaq%20Hussain%20here." target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-600/30 text-[11px] font-bold transition" title="WhatsApp Shop Owner">
+                            <i class="fa-brands fa-whatsapp text-emerald-400"></i>
+                            <span>Chat</span>
+                        </a>
+                        <button onclick="extendShopDays(${s.id}, 365)" class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-sky-600/20 hover:bg-sky-600/30 text-sky-300 border border-sky-600/30 text-[11px] font-bold transition" title="Extend 1-Year Paid Subscription">
+                            <i class="fa-solid fa-plus-circle text-sky-400"></i>
+                            <span>+1 Year</span>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function filterShopsTable() {
+            const query = document.getElementById('searchQuery').value.toLowerCase().trim();
+            const status = document.getElementById('statusFilter').value;
+
+            const filtered = shops.filter(s => {
+                const matchQuery = s.business_name.toLowerCase().includes(query) ||
+                                   s.mobile_number.includes(query) ||
+                                   (s.city_province && s.city_province.toLowerCase().includes(query));
+                const matchStatus = (status === 'ALL') || (s.subscription_status === status);
+                return matchQuery && matchStatus;
+            });
+            renderShopsTable(filtered);
+        }
+
+        function extendShopDays(shopId, days) {
+            const shop = shops.find(s => s.id === shopId);
+            if (!shop) return;
+
+            const today = new Date().toISOString().split('T')[0];
+            const baseDate = (shop.expiry_date > today) ? new Date(shop.expiry_date) : new Date();
+            baseDate.setDate(baseDate.getDate() + days);
+            const newExp = baseDate.toISOString().split('T')[0];
+
+            shop.expiry_date = newExp;
+            shop.subscription_status = 'PAID';
+            shop.plan_type = (days >= 365) ? 'Annual Commercial (Vendor Extended)' : 'Monthly Commercial';
+
+            localStorage.setItem('smarttax_shops_db', JSON.stringify(shops));
+            renderShopsTable();
+            updateStats();
+            alert('SUCCESS: Extended ' + shop.business_name + ' license by ' + days + ' days!\nNew Expiry Date: ' + newExp);
+        }
+
+        function generateNewLicenseKey(type) {
+            const hex = () => Math.random().toString(16).substring(2, 6).toUpperCase();
+            const key = 'SMARTTAX-' + hex() + '-' + hex() + '-' + hex();
+            document.getElementById('generatedKeyBox').classList.remove('hidden');
+            document.getElementById('generatedKeyValue').innerText = key;
+            document.getElementById('generatedKeyHint').innerText = type === 'LIFETIME'
+                ? 'Official Lifetime Unrestricted Commercial Key'
+                : 'Official 1-Year (365-Day) Commercial Key for Pakistan POS';
+        }
+
+        function copyGeneratedKey() {
+            const key = document.getElementById('generatedKeyValue').innerText;
+            navigator.clipboard.writeText(key);
+            alert('Commercial License Key Copied:\n\n' + key);
+        }
+
+        function exportShopsJson() {
+            const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(shops, null, 2));
+            const dlAnchor = document.createElement('a');
+            dlAnchor.setAttribute('href', dataStr);
+            dlAnchor.setAttribute('download', 'smarttax_shops_backup_' + new Date().toISOString().split('T')[0] + '.json');
+            dlAnchor.click();
+        }
+
+        // Initialize on page load
+        window.onload = checkAuth;
+    </script>
+</body>
+</html>
