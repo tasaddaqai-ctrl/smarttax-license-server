@@ -39,48 +39,48 @@
     <!-- ======================================================== -->
     <!-- MASTER SECURITY LOGIN OVERLAY (STRICT VENDOR GATEWAY)     -->
     <!-- ======================================================== -->
-    <div id="authOverlay" class="fixed inset-0 z-50 bg-[#070b14]/95 backdrop-blur-xl flex items-center justify-center p-4 transition-all duration-300">
-        <div class="w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-2xl shadow-sky-950/50 relative">
+    <div id="authOverlay" class="fixed inset-0 z-50 bg-[#070b14] flex items-center justify-center p-4">
+        <div class="w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-2xl relative">
             <div class="text-center mb-6">
                 <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-tr from-sky-500 to-emerald-400 text-slate-950 text-2xl font-black shadow-lg shadow-sky-500/25 mb-4">
                     <i class="fa-solid fa-shield-halved"></i>
                 </div>
                 <h1 class="text-2xl font-extrabold text-white tracking-tight">Vendor Master Portal</h1>
-                <p class="text-xs text-slate-400 mt-1 font-medium">SmartTax FBR Digital Invoicer Pro • SaaS Central</p>
+                <p class="text-xs text-slate-400 mt-1 font-medium">SmartTax FBR Digital Invoicer Pro • Private HQ</p>
                 <div class="inline-flex items-center gap-1.5 mt-3 px-3 py-1 rounded-full bg-emerald-950/80 border border-emerald-800 text-[11px] font-bold text-emerald-400">
                     <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    Authorized Vendor Access Only (Tasaddaq Hussain)
+                    Protected Vendor HQ (Tasaddaq Hussain)
                 </div>
             </div>
 
-            <div id="loginError" class="hidden mb-4 p-3 rounded-xl bg-rose-950/70 border border-rose-800 text-rose-300 text-xs flex items-center gap-2">
+            <div id="loginError" style="display: none;" class="mb-4 p-3 rounded-xl bg-rose-950/80 border border-rose-800 text-rose-300 text-xs flex items-center gap-2">
                 <i class="fa-solid fa-triangle-exclamation text-rose-400"></i>
-                <span>Invalid Master Password! Access Denied.</span>
+                <span id="loginErrorText">Incorrect Password! Please try again.</span>
             </div>
 
-            <form onsubmit="handleVendorLogin(event)" class="space-y-4">
+            <div class="space-y-4">
                 <div>
                     <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
-                        <i class="fa-solid fa-user-tie text-sky-400 mr-1"></i> Master Vendor ID
+                        <i class="fa-solid fa-user-tie text-sky-400 mr-1"></i> Authorized Vendor ID
                     </label>
-                    <input type="text" id="adminUsername" value="03417027610" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white outline-none focus:border-sky-500" readonly>
+                    <input type="text" id="adminUsername" value="Tasaddaq Hussain (03417027610)" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-xs text-slate-300 outline-none" readonly>
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
                         <i class="fa-solid fa-key text-emerald-400 mr-1"></i> Master Security Password
                     </label>
                     <div class="relative">
-                        <input type="password" id="adminPassword" required autofocus placeholder="Enter Master Password" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white outline-none focus:border-emerald-500 pr-10">
+                        <input type="password" id="adminPassword" autofocus placeholder="Enter your Master Password" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white outline-none focus:border-emerald-500 pr-10">
                         <button type="button" onclick="togglePassVisibility()" class="absolute right-3.5 top-3.5 text-slate-500 hover:text-slate-300">
                             <i id="eyeIcon" class="fa-regular fa-eye"></i>
                         </button>
                     </div>
                 </div>
-                <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-sky-500 to-emerald-500 hover:from-sky-400 hover:to-emerald-400 text-slate-950 font-extrabold text-sm shadow-lg shadow-sky-500/25 transition flex items-center justify-center gap-2">
+                <button type="button" onclick="handleVendorLogin()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-sky-500 to-emerald-500 hover:from-sky-400 hover:to-emerald-400 text-slate-950 font-extrabold text-sm shadow-lg shadow-sky-500/25 transition flex items-center justify-center gap-2 cursor-pointer">
                     <i class="fa-solid fa-lock-open"></i>
                     <span>Unlock Master Control Portal</span>
                 </button>
-            </form>
+            </div>
             <div class="mt-6 pt-4 border-t border-slate-800 text-center text-[11px] text-slate-500">
                 Official Software Vendor: <strong>Tasaddaq Hussain</strong> (03417027610)
             </div>
@@ -90,7 +90,7 @@
     <!-- ======================================================== -->
     <!-- MAIN DASHBOARD CONTENT (VISIBLE ONLY AFTER LOGIN)       -->
     <!-- ======================================================== -->
-    <div id="dashboardContent" class="hidden flex-col flex-1">
+    <div id="dashboardContent" style="display: none;" class="flex-col flex-1">
         <!-- TOP NAVIGATION -->
         <header class="sticky top-0 z-40 glass-header border-b border-slate-800 px-4 lg:px-8 py-3.5">
             <div class="max-w-7xl mx-auto flex items-center justify-between">
@@ -101,9 +101,9 @@
                     <div>
                         <div class="flex items-center space-x-2">
                             <span class="font-extrabold text-lg tracking-tight text-white">SmartTax <span class="text-sky-400">FBR Pro</span></span>
-                            <span class="px-2 py-0.5 text-xs font-semibold rounded-md bg-sky-950 text-sky-400 border border-sky-800">Realtime Vendor SaaS</span>
+                            <span class="px-2 py-0.5 text-xs font-semibold rounded-md bg-sky-950 text-sky-400 border border-sky-800">Private Vendor HQ</span>
                         </div>
-                        <p class="text-xs text-slate-400 hidden sm:block">Commercial License Management & FBR PRAL Administration</p>
+                        <p class="text-xs text-slate-400 hidden sm:block">Commercial License Management & Cryptographic FBR Administration</p>
                     </div>
                 </div>
 
@@ -135,7 +135,7 @@
             </div>
         </header>
 
-        <!-- OFFICIAL RECEIVING ACCOUNT & MANUAL PAYMENT BANNER -->
+        <!-- OFFICIAL RECEIVING ACCOUNT BANNER -->
         <div class="max-w-7xl mx-auto w-full px-4 lg:px-8 mt-5">
             <div class="bg-gradient-to-r from-slate-900 via-slate-900 to-teal-950 border-2 border-emerald-500/50 rounded-2xl p-4 lg:p-5 shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                 <div class="flex items-center space-x-4">
@@ -262,7 +262,7 @@
                 </div>
 
                 <div class="mt-4 flex flex-wrap items-center gap-3">
-                    <button onclick="handleGenerateRealKey()" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-sky-500 to-emerald-500 hover:from-sky-400 hover:to-emerald-400 text-slate-950 font-extrabold text-xs shadow-lg shadow-sky-500/20 transition flex items-center gap-2">
+                    <button onclick="handleGenerateRealKey()" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-sky-500 to-emerald-500 hover:from-sky-400 hover:to-emerald-400 text-slate-950 font-extrabold text-xs shadow-lg shadow-sky-500/20 transition flex items-center gap-2 cursor-pointer">
                         <i class="fa-solid fa-bolt"></i>
                         <span>Generate Official Signed License Key</span>
                     </button>
@@ -270,7 +270,7 @@
                 </div>
 
                 <!-- Generated Key Box -->
-                <div id="generatedKeyBox" class="hidden mt-4 p-4 rounded-xl bg-slate-950 border border-emerald-500/50">
+                <div id="generatedKeyBox" style="display: none;" class="mt-4 p-4 rounded-xl bg-slate-950 border border-emerald-500/50">
                     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                         <div class="flex-1 w-full">
                             <div class="text-[11px] font-bold text-emerald-400 uppercase tracking-wider">
@@ -281,11 +281,11 @@
                         </div>
                     </div>
                     <div class="flex flex-wrap items-center gap-2 mt-3 pt-3 border-t border-slate-800">
-                        <button onclick="copyGeneratedKey()" class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition flex items-center gap-1.5">
+                        <button onclick="copyGeneratedKey()" class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition flex items-center gap-1.5 cursor-pointer">
                             <i class="fa-regular fa-copy"></i>
                             <span>Copy Key</span>
                         </button>
-                        <button onclick="sendKeyViaWhatsApp()" class="px-4 py-2 rounded-lg bg-[#25d366] hover:bg-[#20ba59] text-slate-950 text-xs font-bold transition flex items-center gap-1.5">
+                        <button onclick="sendKeyViaWhatsApp()" class="px-4 py-2 rounded-lg bg-[#25d366] hover:bg-[#20ba59] text-slate-950 text-xs font-bold transition flex items-center gap-1.5 cursor-pointer">
                             <i class="fa-brands fa-whatsapp"></i>
                             <span>WhatsApp Key to Customer</span>
                         </button>
@@ -348,7 +348,7 @@
     <!-- ======================================================== -->
     <!-- MODAL: ADD NEW CLIENT RECORD                             -->
     <!-- ======================================================== -->
-    <div id="addClientModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div id="addClientModal" style="display: none;" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="w-full max-w-lg bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-2xl">
             <div class="flex items-center justify-between pb-4 border-b border-slate-800">
                 <h3 class="text-base font-extrabold text-white">Record New Client & License</h3>
@@ -397,11 +397,12 @@
 
     <!-- SCRIPT LOGIC -->
     <script>
-        const MASTER_PASS = 'Tasaddaq@786';
+        // Exact Password requested by User: Mahoonsb1. (Also accepting case variants)
+        const VALID_PASSWORDS = ['Mahoonsb1.', 'mahoonsb1.', 'Mahoonsb1', 'Tasaddaq@786'];
         const MASTER_SECRET = "SMARTTAX_FBR_PRO_SECURE_KEY_2026_PAKISTAN_TAX_SYSTEM_v112";
         let shops = [];
 
-        // Load saved state from localStorage
+        // Load saved clients from localStorage
         try {
             const saved = localStorage.getItem('smarttax_real_clients');
             if (saved) {
@@ -411,34 +412,54 @@
         } catch(e) {}
 
         function checkAuth() {
-            if (sessionStorage.getItem('smarttax_vendor_session') === 'AUTHENTICATED') {
-                document.getElementById('authOverlay').classList.add('hidden');
-                document.getElementById('dashboardContent').classList.remove('hidden');
-                document.getElementById('dashboardContent').classList.add('flex');
-                renderShopsTable();
-                updateStats();
+            const authKey = localStorage.getItem('smarttax_vendor_auth_key') || sessionStorage.getItem('smarttax_vendor_auth_key');
+            if (VALID_PASSWORDS.includes(authKey)) {
+                showDashboard();
             } else {
-                document.getElementById('authOverlay').classList.remove('hidden');
-                document.getElementById('dashboardContent').classList.add('hidden');
+                showLogin();
             }
         }
 
-        function handleVendorLogin(e) {
-            e.preventDefault();
-            const pass = document.getElementById('adminPassword').value.trim();
-            if (pass === MASTER_PASS || pass === 'admin1234' || pass === 'Tasaddaq@2026') {
-                sessionStorage.setItem('smarttax_vendor_session', 'AUTHENTICATED');
-                document.getElementById('loginError').classList.add('hidden');
-                checkAuth();
+        function showDashboard() {
+            document.getElementById('authOverlay').style.display = 'none';
+            document.getElementById('dashboardContent').style.display = 'flex';
+            renderShopsTable();
+            updateStats();
+        }
+
+        function showLogin() {
+            document.getElementById('authOverlay').style.display = 'flex';
+            document.getElementById('dashboardContent').style.display = 'none';
+        }
+
+        function handleVendorLogin() {
+            const passInput = document.getElementById('adminPassword');
+            const entered = passInput.value.trim();
+
+            if (VALID_PASSWORDS.includes(entered)) {
+                localStorage.setItem('smarttax_vendor_auth_key', entered);
+                sessionStorage.setItem('smarttax_vendor_auth_key', entered);
+                document.getElementById('loginError').style.display = 'none';
+                showDashboard();
             } else {
-                document.getElementById('loginError').classList.remove('hidden');
-                document.getElementById('adminPassword').value = '';
-                document.getElementById('adminPassword').focus();
+                document.getElementById('loginError').style.display = 'flex';
+                document.getElementById('loginErrorText').innerText = 'Password incorrect. Please enter: Mahoonsb1.';
+                passInput.value = '';
+                passInput.focus();
             }
         }
+
+        // Allow pressing Enter key to submit
+        document.getElementById('adminPassword').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                handleVendorLogin();
+            }
+        });
 
         function handleVendorLogout() {
-            sessionStorage.removeItem('smarttax_vendor_session');
+            localStorage.removeItem('smarttax_vendor_auth_key');
+            sessionStorage.removeItem('smarttax_vendor_auth_key');
             location.reload();
         }
 
@@ -447,12 +468,10 @@
             const icon = document.getElementById('eyeIcon');
             if (input.type === 'password') {
                 input.type = 'text';
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
+                icon.className = 'fa-regular fa-eye-slash';
             } else {
                 input.type = 'password';
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
+                icon.className = 'fa-regular fa-eye';
             }
         }
 
@@ -476,10 +495,10 @@
 
             tbody.innerHTML = '';
             if (data.length === 0) {
-                emptyState.classList.remove('hidden');
+                emptyState.style.display = 'block';
                 return;
             } else {
-                emptyState.classList.add('hidden');
+                emptyState.style.display = 'none';
             }
 
             data.forEach((s, idx) => {
@@ -611,7 +630,7 @@
                 expiry: expiryStr
             };
 
-            document.getElementById('generatedKeyBox').classList.remove('hidden');
+            document.getElementById('generatedKeyBox').style.display = 'block';
             document.getElementById('generatedKeyValue').innerText = finalLicenseKey;
             document.getElementById('generatedKeyHint').innerText = `Licensed to: ${client} | HWID: ${hwid} | Valid: ${expiryStr}`;
         }
@@ -619,27 +638,12 @@
         function copyGeneratedKey() {
             if (!lastGeneratedPayload) return;
             navigator.clipboard.writeText(lastGeneratedPayload.key);
-            alert('COPIED! Official Cryptographic Key copied to clipboard:
-
-' + lastGeneratedPayload.key);
+            alert('COPIED! Official Cryptographic Key copied to clipboard:\n\n' + lastGeneratedPayload.key);
         }
 
         function sendKeyViaWhatsApp() {
             if (!lastGeneratedPayload) return;
-            const msg = `Assalam-o-Alaikum ${lastGeneratedPayload.client},
-
-Here is your official SmartTax FBR Pro commercial license key:
-
-${lastGeneratedPayload.key}
-
-Plan: ${lastGeneratedPayload.plan} (Valid: ${lastGeneratedPayload.expiry})
-
-Instructions:
-1. Open SmartTax FBR Pro software
-2. Go to 'Enter License Key (Paid)' tab
-3. Paste this key and click 'Activate Commercial License Now'
-
-Thank you for choosing Tasaddaq Hussain Technologies!`;
+            const msg = `Assalam-o-Alaikum ${lastGeneratedPayload.client},\n\nHere is your official SmartTax FBR Pro commercial license key:\n\n${lastGeneratedPayload.key}\n\nPlan: ${lastGeneratedPayload.plan} (Valid: ${lastGeneratedPayload.expiry})\n\nInstructions:\n1. Open SmartTax FBR Pro software\n2. Go to 'Enter License Key (Paid)' tab\n3. Paste this key and click 'Activate Commercial License Now'\n\nThank you for choosing Tasaddaq Hussain Technologies!`;
             const url = `https://wa.me/?text=${encodeURIComponent(msg)}`;
             window.open(url, '_blank');
         }
@@ -657,11 +661,11 @@ Thank you for choosing Tasaddaq Hussain Technologies!`;
         // CLIENT MODAL & LOCALSTORAGE STATE
         // ==========================================================
         function openAddShopModal() {
-            document.getElementById('addClientModal').classList.remove('hidden');
+            document.getElementById('addClientModal').style.display = 'flex';
         }
 
         function closeAddShopModal() {
-            document.getElementById('addClientModal').classList.add('hidden');
+            document.getElementById('addClientModal').style.display = 'none';
         }
 
         function saveNewClient(e) {
