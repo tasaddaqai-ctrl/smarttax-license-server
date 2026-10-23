@@ -86,11 +86,12 @@
             </a>
 
             <!-- Nav Links -->
-            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+            <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-slate-300">
                 <a href="#features" class="hover:text-emerald-400 transition-colors">Features</a>
                 <a href="#compliance" class="hover:text-emerald-400 transition-colors">FBR Compliance</a>
+                <a href="#guide" class="hover:text-emerald-400 transition-colors font-bold text-emerald-400 flex items-center gap-1.5"><i class="fa-solid fa-book-open text-xs"></i> FBR Setup Guide</a>
                 <a href="#pricing" class="hover:text-emerald-400 transition-colors">Pricing</a>
-                <a href="#register" class="hover:text-emerald-400 transition-colors">Register Free</a>
+                <a href="#download" class="hover:text-emerald-400 transition-colors">Download</a>
                 <a href="#faq" class="hover:text-emerald-400 transition-colors">FAQs</a>
             </nav>
 
@@ -440,117 +441,305 @@
         </div>
     </section>
 
-    <!-- Pricing Section -->
+    <!-- Complete Step-by-Step FBR PRAL Digital Invoicing Integration Guide -->
+    <section id="guide" class="py-24 bg-gradient-to-b from-dark-950 via-dark-900 to-dark-950 border-t border-slate-800 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto">
+                <span class="inline-flex items-center px-3.5 py-1.5 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-4">
+                    <i class="fa-solid fa-graduation-cap mr-2 text-emerald-400"></i> Official Step-by-Step Integration Guide
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+                    How to Connect Your Business with <span class="gradient-text">FBR PRAL Digital Invoicing</span>
+                </h2>
+                <p class="mt-4 text-slate-400 text-sm sm:text-base leading-relaxed">
+                    Complete walkthrough for shopkeepers, wholesalers, and importers under SRO 1852(I)/2025 & STGO No. 01 of 2026. Set up your digital sales tax terminal in under 5 minutes.
+                </p>
+            </div>
+
+            <!-- 5-Step Process Cards -->
+            <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Step 1 -->
+                <div class="glass-card p-8 rounded-3xl border border-slate-800 hover:border-emerald-500/40 transition group">
+                    <div class="flex items-center justify-between mb-6">
+                        <span class="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-400 font-extrabold text-lg flex items-center justify-center border border-emerald-500/20 group-hover:scale-110 transition transform">
+                            01
+                        </span>
+                        <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-800 text-slate-300">Prerequisite</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white group-hover:text-emerald-400 transition">Verify NTN & Sales Tax Registration</h3>
+                    <p class="mt-3 text-xs sm:text-sm text-slate-400 leading-relaxed">
+                        Ensure your business has an active 7-digit NTN (or 13-digit CNIC for sole proprietors) and is registered on the FBR Active Taxpayer List (ATL).
+                    </p>
+                    <ul class="mt-4 space-y-2 text-xs text-slate-300">
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-emerald-400 mt-0.5"></i> Check ATL status via SMS <code>ATL &lt;CNIC&gt;</code> to 9966</li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-emerald-400 mt-0.5"></i> Keep your STRN (Sales Tax Registration Number) ready</li>
+                    </ul>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="glass-card p-8 rounded-3xl border border-slate-800 hover:border-emerald-500/40 transition group">
+                    <div class="flex items-center justify-between mb-6">
+                        <span class="w-12 h-12 rounded-2xl bg-cyan-500/10 text-cyan-400 font-extrabold text-lg flex items-center justify-center border border-cyan-500/20 group-hover:scale-110 transition transform">
+                            02
+                        </span>
+                        <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-800 text-slate-300">IRIS Portal</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white group-hover:text-cyan-400 transition">Obtain PRAL POS ID & Bearer Token</h3>
+                    <p class="mt-3 text-xs sm:text-sm text-slate-400 leading-relaxed">
+                        Log in to the official FBR IRIS e-portal (<code>iris.fbr.gov.pk</code>) to register your point-of-sale terminal and generate your digital API key.
+                    </p>
+                    <ul class="mt-4 space-y-2 text-xs text-slate-300">
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-cyan-400 mt-0.5"></i> Go to <strong>Digital Invoicing & POS Registration</strong> tab</li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-cyan-400 mt-0.5"></i> Register Counter to receive POS ID (e.g. <code>POS-01</code>)</li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-cyan-400 mt-0.5"></i> Generate Bearer Token for Sandbox (testing) or Production</li>
+                    </ul>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="glass-card p-8 rounded-3xl border border-slate-800 hover:border-emerald-500/40 transition group">
+                    <div class="flex items-center justify-between mb-6">
+                        <span class="w-12 h-12 rounded-2xl bg-indigo-500/10 text-indigo-400 font-extrabold text-lg flex items-center justify-center border border-indigo-500/20 group-hover:scale-110 transition transform">
+                            03
+                        </span>
+                        <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-800 text-slate-300">Software Setup</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white group-hover:text-indigo-400 transition">Enter Credentials in SmartTax Pro</h3>
+                    <p class="mt-3 text-xs sm:text-sm text-slate-400 leading-relaxed">
+                        Open SmartTax Pro on your PC -> Click <strong>Universal Business Settings</strong> on the left sidebar.
+                    </p>
+                    <ul class="mt-4 space-y-2 text-xs text-slate-300">
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-indigo-400 mt-0.5"></i> Enter Business Name, Branch, Seller NTN, STRN & Address</li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-indigo-400 mt-0.5"></i> Paste your PRAL Bearer Token and select Sandbox/Production</li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-indigo-400 mt-0.5"></i> Click <strong>Test FBR Connection</strong> for instant green verification</li>
+                    </ul>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="glass-card p-8 rounded-3xl border border-slate-800 hover:border-emerald-500/40 transition group">
+                    <div class="flex items-center justify-between mb-6">
+                        <span class="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-400 font-extrabold text-lg flex items-center justify-center border border-amber-500/20 group-hover:scale-110 transition transform">
+                            04
+                        </span>
+                        <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-800 text-slate-300">Billing & POS</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white group-hover:text-amber-400 transition">Issue Invoices with Verifiable QR Code</h3>
+                    <p class="mt-3 text-xs sm:text-sm text-slate-400 leading-relaxed">
+                        Click <strong>Smart Billing POS</strong>. Scan item barcode or choose items. SmartTax automatically applies 18% standard tax, further tax, or 3rd schedule rules.
+                    </p>
+                    <ul class="mt-4 space-y-2 text-xs text-slate-300">
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-amber-400 mt-0.5"></i> Click <strong>Submit to FBR & Print</strong></li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-amber-400 mt-0.5"></i> Real-time 22-digit FBR ID received in &lt; 0.4 seconds</li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-amber-400 mt-0.5"></i> Print A4 Full Tax Slip or 80mm Thermal Receipt with QR Code</li>
+                    </ul>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="glass-card p-8 rounded-3xl border border-slate-800 hover:border-emerald-500/40 transition group md:col-span-2 lg:col-span-2">
+                    <div class="flex items-center justify-between mb-6">
+                        <span class="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-400 font-extrabold text-lg flex items-center justify-center border border-emerald-500/20 group-hover:scale-110 transition transform">
+                            05
+                        </span>
+                        <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">72-Hour Legal Protection</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white group-hover:text-emerald-400 transition">72-Hour Offline Guard & Automatic Load-shedding Sync</h3>
+                    <p class="mt-3 text-xs sm:text-sm text-slate-400 leading-relaxed">
+                        Internet band ho jaye ya light chali jaye, aapki sales billing nahi rukegi. SmartTax Pro invoices ko locally cryptographically sign kar ke encrypted SQLite FIFO queue mein save karta rehta hai.
+                    </p>
+                    <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-300">
+                        <div class="p-3 bg-slate-900/80 rounded-xl border border-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-wifi-slash text-amber-400"></i>
+                            <span>Offline bills print immediately with official fallback headers</span>
+                        </div>
+                        <div class="p-3 bg-slate-900/80 rounded-xl border border-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-rotate text-emerald-400"></i>
+                            <span>Auto-transmits within statutory 72 hours upon internet restore</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FBR Token Helpline Banner -->
+            <div class="mt-12 glass-card p-6 sm:p-8 rounded-3xl border border-emerald-500/30 flex flex-col md:flex-row items-center justify-between gap-6 bg-gradient-to-r from-emerald-950/30 via-slate-900 to-emerald-950/30">
+                <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-2xl shrink-0">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-base sm:text-lg font-extrabold text-white">Need Free Help Generating Your FBR Token?</h4>
+                        <p class="text-xs sm:text-sm text-slate-400 mt-1">Our certified team assists you with IRIS counter registration and PRAL token setup at no extra charge.</p>
+                    </div>
+                </div>
+                <a href="https://wa.me/923417027610?text=Assalam-o-Alaikum%20Tasaddaq%20bhai,%20FBR%20Token%20aur%20POS%20setup%20mein%20rehnumai%20chahiye" target="_blank" class="px-6 py-3.5 bg-gradient-to-r from-emerald-400 to-teal-300 hover:from-emerald-300 hover:to-teal-200 text-slate-950 font-black text-xs sm:text-sm rounded-xl shadow-lg shadow-emerald-500/20 hover:scale-105 transition transform flex items-center gap-2 shrink-0">
+                    <i class="fa-brands fa-whatsapp text-base"></i> WhatsApp Help (03417027610)
+                </a>
+            </div>
+        </div>
+    </section>
+
+<!-- Pricing Section -->
     <section id="pricing" class="py-24 bg-dark-900/50 border-t border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-4">
-                <i class="fa-solid fa-tags mr-2"></i> Transparent & Affordable
+                <i class="fa-solid fa-tags mr-2"></i> Transparent Official Pricing
             </span>
-            <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Simple Pricing For Every Pakistani Business</h2>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Commercial License Plans & Pricing</h2>
             <p class="mt-4 text-slate-400 text-sm sm:text-base max-w-2xl mx-auto">
-                No hidden costs. 100% money-back guarantee. Instant online payment via JazzCash, EasyPaisa, or NayaPay.
+                Direct manual payment to Official Vendor. Machine HWID-locked cryptographic license keys with zero recurring gateway auto-debits.
             </p>
 
-            <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto text-left">
+            <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto text-left">
                 <!-- Plan 1: 30-Day Free Trial -->
-                <div class="glass-card p-8 rounded-3xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition">
+                <div class="glass-card p-6 rounded-3xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition">
                     <div>
                         <div class="flex items-center justify-between">
-                            <h3 class="text-lg font-bold text-white">30-Day Evaluation</h3>
-                            <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-slate-800 text-slate-300">FREE</span>
+                            <h3 class="text-base font-bold text-white">30-Day Evaluation</h3>
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-slate-300">FREE TRIAL</span>
                         </div>
-                        <div class="mt-6 flex items-baseline">
-                            <span class="text-4xl font-extrabold text-white">PKR 0</span>
-                            <span class="ml-2 text-xs text-slate-400">/ 30 days</span>
+                        <div class="mt-5 flex items-baseline">
+                            <span class="text-3xl font-extrabold text-white">PKR 0</span>
+                            <span class="ml-1.5 text-xs text-slate-400">/ 30 days</span>
                         </div>
-                        <p class="mt-3 text-xs text-slate-400">Complete risk-free trial for testing with FBR Sandbox and Live invoicing.</p>
+                        <p class="mt-2.5 text-xs text-slate-400">Complete risk-free trial for testing with FBR Sandbox and Live invoicing.</p>
 
-                        <div class="mt-8 space-y-3 text-xs text-slate-300">
-                            <div class="flex items-center gap-2.5"><i class="fa-solid fa-check text-emerald-400"></i> Full FBR API v1.12 Integration</div>
-                            <div class="flex items-center gap-2.5"><i class="fa-solid fa-check text-emerald-400"></i> Up to 2 PC Terminals</div>
-                            <div class="flex items-center gap-2.5"><i class="fa-solid fa-check text-emerald-400"></i> Thermal POS & A4 Receipts</div>
-                            <div class="flex items-center gap-2.5"><i class="fa-solid fa-check text-emerald-400"></i> WhatsApp OTP Verified Login</div>
-                            <div class="flex items-center gap-2.5"><i class="fa-solid fa-check text-emerald-400"></i> Offline Invoicing Mode</div>
+                        <div class="mt-6 space-y-2.5 text-xs text-slate-300">
+                            <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Full FBR PRAL v1.12 API</div>
+                            <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Up to 2 PC Terminals</div>
+                            <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> A4 Full & 80mm Thermal Slips</div>
+                            <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> 72h Offline Load-shedding Guard</div>
                         </div>
                     </div>
-                    <a href="#register" class="mt-8 w-full py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs text-center block transition">
-                        Start 30-Day Free Trial
+                    <a href="#download" class="mt-6 w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs text-center block transition">
+                        Download & Test Free
                     </a>
                 </div>
 
-                <!-- Plan 2: Annual Commercial (Featured) -->
-                <div class="relative glass-card p-8 rounded-3xl border-2 border-emerald-500/80 bg-gradient-to-b from-emerald-950/20 to-slate-900/80 shadow-2xl glow-emerald flex flex-col justify-between">
-                    <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-emerald-500 to-teal-400 text-slate-950 text-xs font-black tracking-wider uppercase shadow-md">
-                        ★ MOST POPULAR & BEST VALUE ★
+                <!-- Plan 2: 1-Year Commercial License (Featured) -->
+                <div class="relative glass-card p-6 rounded-3xl border-2 border-emerald-500/80 bg-gradient-to-b from-emerald-950/20 to-slate-900/80 shadow-2xl glow-emerald flex flex-col justify-between">
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-gradient-to-r from-emerald-500 to-teal-400 text-slate-950 text-[10px] font-black tracking-wider uppercase shadow-md">
+                        ★ MOST POPULAR ★
                     </div>
                     <div>
-                        <div class="flex items-center justify-between mt-2">
-                            <h3 class="text-lg font-bold text-white">Annual Commercial</h3>
-                            <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">SAVE PKR 8,000</span>
+                        <div class="flex items-center justify-between mt-1">
+                            <h3 class="text-base font-bold text-white">1-Year Commercial</h3>
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">BEST VALUE</span>
                         </div>
-                        <div class="mt-6 flex items-baseline">
-                            <span class="text-4xl font-extrabold text-white">PKR 22,000</span>
-                            <span class="ml-2 text-xs text-slate-400">/ year</span>
+                        <div class="mt-5 flex items-baseline">
+                            <span class="text-3xl font-extrabold text-white">PKR 22,000</span>
+                            <span class="ml-1.5 text-xs text-slate-400">/ year</span>
                         </div>
-                        <p class="mt-3 text-xs text-slate-300">Equivalent to only PKR 1,833/month. Full enterprise commercial license.</p>
+                        <p class="mt-2.5 text-xs text-slate-300">Only PKR 1,833/month. Full commercial enterprise license for 365 days.</p>
 
-                        <div class="mt-8 space-y-3 text-xs text-slate-200">
-                            <div class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-emerald-400"></i> <strong>Everything in Free Trial</strong></div>
-                            <div class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-emerald-400"></i> Unlimited Sales Invoices for 365 Days</div>
-                            <div class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-emerald-400"></i> 2 PC Billing Counters Included</div>
-                            <div class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-emerald-400"></i> Automated Cloud Storage Backups</div>
-                            <div class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-emerald-400"></i> Automated 1-Click Mobile Wallet Renewal</div>
-                            <div class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-emerald-400"></i> Direct VIP WhatsApp Support</div>
+                        <div class="mt-6 space-y-2.5 text-xs text-slate-200">
+                            <div class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-400"></i> <strong>Everything in Free Trial</strong></div>
+                            <div class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-400"></i> Unlimited Sales Invoices for 1 Year</div>
+                            <div class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-400"></i> 2 PC Billing Terminals (HWID Locked)</div>
+                            <div class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-400"></i> 1 Year Free FBR Tax Law Updates</div>
+                            <div class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-400"></i> VIP Priority WhatsApp Support</div>
                         </div>
                     </div>
-                    <a href="#register" class="mt-8 w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-400 to-teal-300 hover:from-emerald-300 hover:to-teal-200 text-slate-950 font-black text-sm text-center block shadow-lg shadow-emerald-500/20 hover:scale-[1.02] transition transform">
-                        Activate Annual License
+                    <a href="https://wa.me/923417027610?text=Assalam-o-Alaikum%20Tasaddaq%20bhai,%20mujhy%201-Year%20Commercial%20License%20(PKR%2022,000)%20chahiye" target="_blank" class="mt-6 w-full py-3 rounded-xl bg-gradient-to-r from-emerald-400 to-teal-300 hover:from-emerald-300 hover:to-teal-200 text-slate-950 font-black text-xs text-center block shadow-lg shadow-emerald-500/20 hover:scale-[1.02] transition transform">
+                        Activate 1-Year License
                     </a>
                 </div>
 
-                <!-- Plan 3: Monthly Commercial -->
-                <div class="glass-card p-8 rounded-3xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition">
+                <!-- Plan 3: Lifetime Permanent License -->
+                <div class="glass-card p-6 rounded-3xl border border-cyan-500/40 bg-gradient-to-b from-cyan-950/20 to-slate-900/80 flex flex-col justify-between hover:border-cyan-400 transition">
                     <div>
                         <div class="flex items-center justify-between">
-                            <h3 class="text-lg font-bold text-white">Monthly Flexible</h3>
-                            <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-slate-800 text-slate-300">FLEXIBLE</span>
+                            <h3 class="text-base font-bold text-white">Lifetime Permanent</h3>
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">ONE-TIME</span>
                         </div>
-                        <div class="mt-6 flex items-baseline">
-                            <span class="text-4xl font-extrabold text-white">PKR 2,500</span>
-                            <span class="ml-2 text-xs text-slate-400">/ month</span>
+                        <div class="mt-5 flex items-baseline">
+                            <span class="text-3xl font-extrabold text-white">PKR 45,000</span>
+                            <span class="ml-1.5 text-xs text-slate-400">one-time</span>
                         </div>
-                        <p class="mt-3 text-xs text-slate-400">Pay month-to-month. Cancel anytime without penalty.</p>
+                        <p class="mt-2.5 text-xs text-slate-400">Permanent perpetual cryptographic key. Pay once and use forever.</p>
 
-                        <div class="mt-8 space-y-3 text-xs text-slate-300">
-                            <div class="flex items-center gap-2.5"><i class="fa-solid fa-check text-emerald-400"></i> Full FBR API Integration</div>
-                            <div class="flex items-center gap-2.5"><i class="fa-solid fa-check text-emerald-400"></i> Unlimited Monthly Invoicing</div>
-                            <div class="flex items-center gap-2.5"><i class="fa-solid fa-check text-emerald-400"></i> 2 PC Multi-Device Access</div>
-                            <div class="flex items-center gap-2.5"><i class="fa-solid fa-check text-emerald-400"></i> Cloud Auto-Backup Vault</div>
-                            <div class="flex items-center gap-2.5"><i class="fa-solid fa-check text-emerald-400"></i> Instant Mobile Wallet Renewal</div>
+                        <div class="mt-6 space-y-2.5 text-xs text-slate-300">
+                            <div class="flex items-center gap-2"><i class="fa-solid fa-crown text-amber-400"></i> Lifetime Permanent Ownership</div>
+                            <div class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> 2 PCs Included + Permanent HWID Key</div>
+                            <div class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> Unlimited Invoices For Life</div>
+                            <div class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> Lifetime PRAL SRO Tax Updates</div>
+                            <div class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> Direct Developer Priority Line</div>
                         </div>
                     </div>
-                    <a href="#register" class="mt-8 w-full py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs text-center block transition">
-                        Select Monthly Plan
+                    <a href="https://wa.me/923417027610?text=Assalam-o-Alaikum%20Tasaddaq%20bhai,%20mujhy%20Lifetime%20Permanent%20License%20(PKR%2045,000)%20chahiye" target="_blank" class="mt-6 w-full py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-extrabold text-xs text-center block transition">
+                        Get Lifetime License
+                    </a>
+                </div>
+
+                <!-- Plan 4: Monthly Flexible -->
+                <div class="glass-card p-6 rounded-3xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition">
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-base font-bold text-white">Monthly Flexible</h3>
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-slate-300">FLEXIBLE</span>
+                        </div>
+                        <div class="mt-5 flex items-baseline">
+                            <span class="text-3xl font-extrabold text-white">PKR 2,500</span>
+                            <span class="ml-1.5 text-xs text-slate-400">/ month</span>
+                        </div>
+                        <p class="mt-2.5 text-xs text-slate-400">Pay month-to-month. Cancel or upgrade anytime without penalty.</p>
+
+                        <div class="mt-6 space-y-2.5 text-xs text-slate-300">
+                            <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Full FBR API Integration</div>
+                            <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Unlimited Monthly Invoicing</div>
+                            <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> 2 PC Multi-Device Access</div>
+                            <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> 1-Month Cryptographic Key</div>
+                        </div>
+                    </div>
+                    <a href="https://wa.me/923417027610?text=Assalam-o-Alaikum%20Tasaddaq%20bhai,%20mujhy%20Monthly%20Flexible%20Plan%20(PKR%202,500)%20chahiye" target="_blank" class="mt-6 w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs text-center block transition">
+                        Choose Monthly Plan
                     </a>
                 </div>
             </div>
 
-            <!-- Vendor Verified Payment Info Banner -->
-            <div class="mt-14 max-w-4xl mx-auto glass-card p-6 rounded-2xl border border-emerald-500/30 text-left flex flex-col sm:flex-row items-center justify-between gap-6">
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-2xl shrink-0">
-                        <i class="fa-solid fa-wallet"></i>
-                    </div>
+            <!-- Official Receiving Account Box & HWID 4-Step Activation Flow -->
+            <div class="mt-12 max-w-5xl mx-auto glass-card p-6 sm:p-8 rounded-3xl border border-emerald-500/30 text-left bg-gradient-to-r from-emerald-950/20 via-slate-900 to-emerald-950/20">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                     <div>
-                        <div class="text-xs uppercase font-extrabold tracking-wider text-emerald-400">Official Software Vendor Details</div>
-                        <div class="text-base font-extrabold text-white">Tasaddaq Hussain — <span class="font-mono text-emerald-300">03417027610</span></div>
-                        <div class="text-xs text-slate-400 mt-0.5">Automated Mobile Wallets: <strong>JazzCash • EasyPaisa • NayaPay</strong></div>
+                        <div class="text-xs uppercase font-extrabold tracking-wider text-emerald-400 mb-1 flex items-center gap-2">
+                            <i class="fa-solid fa-shield-halved"></i> Official Vendor Receiving Account
+                        </div>
+                        <div class="text-xl font-extrabold text-white mt-1">Tasaddaq Hussain</div>
+                        <div class="mt-3 space-y-1.5 text-xs text-slate-300">
+                            <div class="flex items-center gap-2">
+                                <span class="text-slate-400 w-24">Account / No:</span>
+                                <strong class="font-mono text-emerald-300 text-sm bg-slate-900 px-2 py-0.5 rounded border border-slate-700">03417027610</strong>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-slate-400 w-24">Wallets:</span>
+                                <span>JazzCash • EasyPaisa • NayaPay • Raast ID</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-slate-400 w-24">Verification:</span>
+                                <span class="text-emerald-400 font-semibold">100% Manual & Instant (Within 5 Minutes)</span>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="flex items-center gap-3">
-                    <a href="https://wa.me/923417027610?text=Assalam-o-Alaikum%20Tasaddaq%20bhai,%20mujhy%20SmartTax%20FBR%20Pro%20chahiye" target="_blank" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold text-xs flex items-center gap-2 shadow transition">
-                        <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp (03417027610)
-                    </a>
+
+                    <!-- 4-Step HWID Activation Explanation -->
+                    <div class="bg-slate-900/90 p-5 rounded-2xl border border-slate-800 text-xs text-slate-300 space-y-2.5">
+                        <div class="font-bold text-white text-sm mb-2 text-emerald-400 flex items-center gap-2">
+                            <i class="fa-solid fa-key"></i> How Machine HWID Activation Works:
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center shrink-0">1</span>
+                            <span>Download and install <strong>SmartTax_Installer_v4.exe</strong> on your PC.</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center shrink-0">2</span>
+                            <span>Click <strong>"🔑 Commercial License & HWID"</strong> and click <strong>Copy HWID</strong>.</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center shrink-0">3</span>
+                            <span>Send payment screenshot and HWID to WhatsApp <strong>03417027610</strong>.</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center shrink-0">4</span>
+                            <span>Receive your unique cryptographic key, paste it into the software, and activate permanently!</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
