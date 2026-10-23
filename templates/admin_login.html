@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor Master Security Access | SmartTax FBR Pro</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkbg: '#070b14',
+                        cardbg: '#0f172a',
+                        bordercolor: '#1e293b'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-[#070b14] text-slate-100 min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+
+    <!-- Glowing Background Aura -->
+    <div class="absolute -top-40 -left-40 w-96 h-96 bg-sky-600/15 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -bottom-40 -right-40 w-96 h-96 bg-emerald-600/15 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="w-full max-w-md relative z-10">
+        <!-- Card -->
+        <div class="bg-slate-900/90 backdrop-blur-xl border border-slate-800 rounded-3xl p-8 shadow-2xl shadow-sky-950/50">
+            <!-- Header -->
+            <div class="text-center mb-7">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-tr from-sky-500 to-emerald-400 text-slate-950 text-2xl font-black shadow-lg shadow-sky-500/25 mb-4">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <h1 class="text-2xl font-extrabold text-white tracking-tight">Vendor Master Access</h1>
+                <p class="text-xs text-slate-400 mt-1.5 font-medium">SmartTax FBR Digital Invoicer Pro • SaaS Central</p>
+                <div class="inline-flex items-center gap-1.5 mt-3 px-3 py-1 rounded-full bg-emerald-950/80 border border-emerald-800 text-[11px] font-bold text-emerald-400">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    Protected Vendor Control Portal
+                </div>
+            </div>
+
+            <!-- Error Banner -->
+            {% if error %}
+            <div class="mb-5 p-3.5 rounded-xl bg-rose-950/60 border border-rose-800 text-rose-300 text-xs flex items-center gap-3">
+                <i class="fa-solid fa-triangle-exclamation text-base text-rose-400 shrink-0"></i>
+                <div>{{ error }}</div>
+            </div>
+            {% endif %}
+
+            <!-- Login Form -->
+            <form method="POST" action="/admin/login" class="space-y-5">
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
+                        <i class="fa-solid fa-user-tie text-sky-400 mr-1.5"></i> Master Username / Mobile
+                    </label>
+                    <div class="relative">
+                        <input type="text" name="username" required autofocus placeholder="03417027610 or admin"
+                               class="w-full bg-slate-950 border border-slate-700 focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 transition outline-none">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
+                        <i class="fa-solid fa-key text-emerald-400 mr-1.5"></i> Master Security Password
+                    </label>
+                    <div class="relative">
+                        <input type="password" id="adminPassword" name="password" required placeholder="Enter Master Admin Password"
+                               class="w-full bg-slate-950 border border-slate-700 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 transition outline-none pr-10">
+                        <button type="button" onclick="togglePass()" class="absolute right-3.5 top-3.5 text-slate-500 hover:text-slate-300 text-sm">
+                            <i id="eyeIcon" class="fa-regular fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-sky-500 to-emerald-500 hover:from-sky-400 hover:to-emerald-400 text-slate-950 font-extrabold text-sm shadow-lg shadow-sky-500/25 transition duration-200 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-lock-open"></i>
+                    <span>Unlock Master Control Portal</span>
+                </button>
+            </form>
+
+            <!-- Bottom Disclaimer -->
+            <div class="mt-7 pt-5 border-t border-slate-800 text-center">
+                <p class="text-[11px] text-slate-500">
+                    <i class="fa-solid fa-shield mr-1"></i> Authorized Software Vendor Access Only: <strong>Tasaddaq Hussain</strong>
+                </p>
+                <p class="text-[10px] text-slate-600 mt-1">IP address and authentication attempts are logged for security.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function togglePass() {
+            const input = document.getElementById('adminPassword');
+            const icon = document.getElementById('eyeIcon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+    </script>
+</body>
+</html>
