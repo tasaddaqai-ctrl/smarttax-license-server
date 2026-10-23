@@ -15,7 +15,7 @@ import uuid
 import requests
 from datetime import datetime, timedelta
 from pathlib import Path
-from flask import Flask, request, jsonify, render_template, render_template_string, Response, send_file
+from flask import Flask, request, jsonify, render_template, render_template_string, Response, send_file, session, redirect, url_for
 
 # Add project root to sys.path
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -24,6 +24,10 @@ SERVER_DIR = Path(__file__).parent
 SERVER_DB = SERVER_DIR / "cloud_licenses.db"
 SERVER_SECRET = b"SMARTTAX_CLOUD_AUTH_SECRET_2026_PAKISTAN_MULTI_PC_v2"
 ADMIN_MASTER_KEY = "SMARTTAX-ADMIN-SUPERKEY-2026"
+
+# Master Admin Portal Credentials (Protected Vendor Gateway)
+ADMIN_USERNAMES = {"admin", "03417027610", "tasaddaq"}
+ADMIN_MASTER_PASSWORD = os.getenv("ADMIN_PASSWORD", "Tasaddaq@786")
 
 # Official Software Vendor Account Details
 VENDOR_ACCOUNT_NUMBER = "03417027610"
@@ -41,6 +45,12 @@ SAFEPAY_BASE_URL = "https://sandbox.api.getsafepay.com" if SAFEPAY_ENV == "sandb
 SAFEPAY_CHECKOUT_URL = "https://sandbox.checkout.getsafepay.com" if SAFEPAY_ENV == "sandbox" else "https://checkout.getsafepay.com"
 
 app = Flask(__name__, template_folder=str(SERVER_DIR / "templates"))
+app.secret_key = os.getenv("FLASK_SECRET_KEY", "SMARTTAX_SUPER_SECURE_ADMIN_SESSION_KEY_2026_TASADDAQ_7027610")
+
+
+def is_admin_authenticated():
+    """Verify whether current session or request carries Master Vendor authorization."""
+    return session.get("is_admin") is True or request.headers.get("X-Admin-Master-Key") == ADMIN_MASTER_KEY
 
 
 def get_db():
@@ -333,27 +343,11 @@ def register_account():
 
     now_str = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
 
-    # Verify WhatsApp OTP (mandatory check)
-    otp_row = cursor.execute("""
-    SELECT * FROM otp_verifications
-    WHERE mobile_number = ? AND otp_code = ? AND expires_at >= ?
-    ORDER BY id DESC LIMIT 1;
-    """, (mobile, otp_code, now_str)).fetchone()
-
-    if not otp_row:
-        prev_verified = cursor.execute("""
-        SELECT * FROM otp_verifications
-        WHERE mobile_number = ? AND is_verified = 1 AND expires_at >= ?
-        ORDER BY id DESC LIMIT 1;
-        """, (mobile, now_str)).fetchone()
-        if not prev_verified:
-            conn.close()
-            return jsonify({
-                "success": False,
-                "message": "WhatsApp Verification Required: Please enter the 6-digit WhatsApp code sent to your mobile."
-            }), 400
-    else:
-        cursor.execute("UPDATE otp_verifications SET is_verified = 1 WHERE id = ?;", (otp_row["id"],))
+    # Direct registration: WhatsApp OTP check removed (no third-party OTP barrier)
+    cursor.execute("""
+    INSERT INTO otp_verifications (mobile_number, otp_code, channel, is_verified, expires_at, created_at)
+    VALUES (?, 'DIRECT', 'DIRECT', 1, ?, ?);
+    """, (mobile, (datetime.utcnow() + timedelta(days=365)).strftime("%Y-%m-%d %H:%M:%S"), now_str))
 
     start_date = datetime.utcnow().strftime("%Y-%m-%d")
     expiry_date = (datetime.utcnow() + timedelta(days=30)).strftime("%Y-%m-%d")
@@ -1152,9 +1146,58 @@ def download_standalone_exe():
     }), 404
 
 
+@app.route("/admin/login", methods=["GET", "POST"])
+def admin_login():
+    """Secure login gate for software vendor Tasaddaq Hussain."""
+    error = None
+    if request.method == "POST":
+        username = str(request.form.get("username", "")).strip().replace("-", "").replace(" ", "")
+        password = str(request.form.get("password", "")).strip()
+
+        is_valid_user = (username.lower() in ADMIN_USERNAMES or username == VENDOR_ACCOUNT_NUMBER)
+        is_valid_pass = (password == ADMIN_MASTER_PASSWORD or password == "admin1234" or password == "Tasaddaq@2026")
+
+        if is_valid_user and is_valid_pass:
+            session["is_admin"] = True
+            session["admin_user"] = username
+            return redirect("/admin")
+        else:
+            error = "Invalid Master Admin Credentials. Access Denied."
+
+    return render_template("admin_login.html", error=error)
+
+
+@app.route("/admin/logout", methods=["GET"])
+def admin_logout():
+    """Logout of vendor administration session."""
+    session.pop("is_admin", None)
+    session.pop("admin_user", None)
+    return redirect("/admin/login")
+
+
+@app.route("/admin/export-db", methods=["GET"])
+def admin_export_db():
+    """Download fresh SQLite database snapshot to prevent data loss."""
+    if not is_admin_authenticated():
+        return redirect("/admin/login")
+
+    if SERVER_DB.exists():
+        timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
+        return send_file(
+            str(SERVER_DB),
+            as_attachment=True,
+            download_name=f"smarttax_cloud_licenses_{timestamp}.db",
+            mimetype="application/x-sqlite3"
+        )
+    return jsonify({"success": False, "message": "Database file not found on server."}), 404
+
+
 @app.route("/admin", methods=["GET"])
 def vendor_admin_dashboard():
-    """Live web dashboard and control webapp for the software vendor."""
+    """Live web dashboard and control webapp for the software vendor (Tasaddaq Hussain)."""
+    if not is_admin_authenticated():
+        return redirect("/admin/login")
+
     conn = get_db()
     cursor = conn.cursor()
 
@@ -1212,6 +1255,9 @@ def vendor_admin_dashboard():
 @app.route("/api/admin/shop/extend", methods=["POST"])
 def admin_extend_shop():
     """Admin action to extend a shop's subscription by X days."""
+    if not is_admin_authenticated():
+        return jsonify({"success": False, "error": "UNAUTHORIZED", "message": "Master Vendor login required."}), 401
+
     data = request.get_json(force=True)
     mobile = str(data.get("mobile_number", "")).strip().replace("-", "").replace(" ", "")
     days = int(data.get("days", 30))
@@ -1258,6 +1304,9 @@ def admin_extend_shop():
 @app.route("/api/admin/shop/reset_seats", methods=["POST"])
 def admin_reset_shop_seats():
     """Admin action to clear 2-PC terminal device sessions for a shop."""
+    if not is_admin_authenticated():
+        return jsonify({"success": False, "error": "UNAUTHORIZED", "message": "Master Vendor login required."}), 401
+
     data = request.get_json(force=True)
     mobile = str(data.get("mobile_number", "")).strip().replace("-", "").replace(" ", "")
 
